@@ -1,0 +1,348 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    font-size: 3em;
+    margin-bottom: 40px;
+    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+    animation: fadeInDown 0.8s ease;
+}
+
+#quizForm {
+    background: white;
+    max-width: 900px;
+    width: 100%;
+    padding: 50px;
+    border-radius: 25px;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+    animation: fadeInUp 1s ease;
+}
+
+div {
+    margin-bottom: 35px;
+    padding: 25px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+div:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+h3 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.4em;
+    padding-left: 15px;
+    border-left: 5px solid #667eea;
+    position: relative;
+}
+
+h3::before {
+    content: '❓';
+    position: absolute;
+    left: -30px;
+    font-size: 1.2em;
+}
+
+label {
+    display: block;
+    padding: 15px 20px;
+    margin: 10px 0;
+    background: white;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid #e9ecef;
+    font-size: 1.1em;
+    position: relative;
+    overflow: hidden;
+}
+
+label::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, rgba(102, 126, 234, 0.1), transparent);
+    transition: width 0.3s ease;
+    z-index: 0;
+}
+
+label:hover::before {
+    width: 100%;
+}
+
+label:hover {
+    border-color: #667eea;
+    transform: translateX(8px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+}
+
+input[type="radio"] {
+    margin-right: 12px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    accent-color: #667eea;
+    position: relative;
+    z-index: 1;
+}
+
+label:has(input[type="radio"]:checked) {
+    background: linear-gradient(135deg, #e7e9ff 0%, #f0f1ff 100%);
+    border-color: #667eea;
+    font-weight: 600;
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+    transform: translateX(5px);
+}
+
+label:has(input[type="radio"]:checked)::after {
+    content: '✓';
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #667eea;
+    font-size: 1.5em;
+    font-weight: bold;
+    animation: checkmark 0.3s ease;
+}
+
+hr {
+    border: none;
+    height: 3px;
+    background: linear-gradient(to right, transparent, #667eea, transparent);
+    margin: 40px 0;
+    position: relative;
+}
+
+hr::after {
+    content: '◆';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    color: #667eea;
+    padding: 0 10px;
+    font-size: 1.2em;
+}
+
+a {
+    display: block;
+    text-align: center;
+    margin-top: 40px;
+}
+
+button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px 50px;
+    font-size: 1.3em;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+button:hover::before {
+    width: 400px;
+    height: 400px;
+}
+
+button:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.7);
+}
+
+button:active {
+    transform: translateY(-2px) scale(1.02);
+}
+
+/* Анімації */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes checkmark {
+    0% {
+        opacity: 0;
+        transform: translateY(-50%) scale(0);
+    }
+    50% {
+        transform: translateY(-50%) scale(1.3);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+    }
+}
+
+/* Анімація появи питань */
+#quizForm > div {
+    animation: slideIn 0.6s ease forwards;
+    opacity: 0;
+}
+
+#quizForm > div:nth-of-type(1) { animation-delay: 0.1s; }
+#quizForm > div:nth-of-type(2) { animation-delay: 0.2s; }
+#quizForm > div:nth-of-type(3) { animation-delay: 0.3s; }
+#quizForm > div:nth-of-type(4) { animation-delay: 0.4s; }
+#quizForm > div:nth-of-type(5) { animation-delay: 0.5s; }
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Прогрес-бар */
+.progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    z-index: 1000;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    width: 0%;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.8);
+}
+
+/* Адаптивність */
+@media (max-width: 768px) {
+    body {
+        padding: 20px 10px;
+    }
+
+    h1 {
+        font-size: 2em;
+        margin-bottom: 30px;
+    }
+
+    #quizForm {
+        padding: 30px 20px;
+    }
+
+    div {
+        padding: 20px 15px;
+    }
+
+    h3 {
+        font-size: 1.2em;
+        padding-left: 10px;
+    }
+
+    h3::before {
+        left: -25px;
+    }
+
+    label {
+        padding: 12px 15px;
+        font-size: 1em;
+    }
+
+    button {
+        padding: 16px 35px;
+        font-size: 1.1em;
+        letter-spacing: 1.5px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.6em;
+    }
+
+    #quizForm {
+        padding: 20px 15px;
+    }
+
+    h3 {
+        font-size: 1.1em;
+    }
+
+    label {
+        padding: 10px 12px;
+        font-size: 0.95em;
+    }
+
+    button {
+        padding: 14px 30px;
+        font-size: 1em;
+    }
+
+    label:hover {
+        transform: translateX(3px);
+    }
+}
