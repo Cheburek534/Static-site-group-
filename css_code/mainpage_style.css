@@ -5,46 +5,298 @@
 }
 
 body {
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    background-color: #eec4a0;
-    color: #000000;
-    line-height: 1.5;
-    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Декоративні кола на фоні */
+body::before,
+body::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+}
+
+body::before {
+    width: 500px;
+    height: 500px;
+    background: white;
+    top: -200px;
+    left: -200px;
+    animation: float 6s ease-in-out infinite;
+}
+
+body::after {
+    width: 400px;
+    height: 400px;
+    background: white;
+    bottom: -150px;
+    right: -150px;
+    animation: float 8s ease-in-out infinite reverse;
 }
 
 h1 {
+    color: white;
     text-align: center;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-size: 40px;
-    font-weight: bold;
-    color: #000000;
-    margin-bottom: 30px;
+    font-size: 3em;
+    margin-bottom: 60px;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+    animation: fadeInDown 1s ease;
+    z-index: 1;
+    max-width: 1100px;
+    line-height: 1.3;
 }
 
 .main-block {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    max-width: 1100px;
+    width: 100%;
+    padding: 60px;
+    border-radius: 30px;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
     display: flex;
-    align-items: flex-start;
-    gap: 40px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+    animation: fadeInUp 1.2s ease;
+    position: relative;
+    z-index: 1;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.main-block::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(135deg, #667eea, #764ba2, #667eea);
+    border-radius: 31px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    animation: gradientShift 3s ease infinite;
+    background-size: 200% 200%;
+}
+
+.main-block:hover::before {
+    opacity: 0.6;
+}
+
+.main-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
 }
 
 .main-text p {
-    margin: 0 0 8px 0;
+    font-size: 1.6em;
+    color: #333;
+    line-height: 1.7;
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.main-text p::before {
+    content: '🎯';
+    position: absolute;
+    left: 0;
+    font-size: 1.2em;
 }
 
 .start-btn {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: rgb(154, 238, 232);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px 50px;
+    font-size: 1.3em;
     border: none;
-    color: rgb(0, 0, 0);
-    font-size: 16px;
+    border-radius: 50px;
     cursor: pointer;
-    width: 200px;
-    border-radius: 10px;
+    transition: all 0.4s ease;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    align-self: flex-start;
+    position: relative;
+    overflow: hidden;
+}
+
+.start-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.start-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.start-btn:hover {
+    transform: translateY(-4px) scale(1.08);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.7);
+}
+
+.start-btn:active {
+    transform: translateY(-2px) scale(1.05);
 }
 
 .img-for-main {
-    width: 200px;
-    border-radius: 15px;
+    flex: 1;
+    max-width: 450px;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    transition: all 0.5s ease;
+    border: 4px solid white;
+}
+
+.img-for-main:hover {
+    transform: scale(1.08) rotate(3deg);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+a {
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* Анімації */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(30px);
+    }
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Адаптивність для планшетів */
+@media (max-width: 900px) {
+    h1 {
+        font-size: 2.2em;
+        margin-bottom: 40px;
+    }
+
+    .main-block {
+        flex-direction: column;
+        padding: 40px;
+        text-align: center;
+    }
+
+    .main-text {
+        align-items: center;
+    }
+
+    .main-text p {
+        font-size: 1.4em;
+        padding-left: 0;
+    }
+
+    .main-text p::before {
+        display: none;
+    }
+
+    .start-btn {
+        align-self: center;
+        padding: 18px 40px;
+        font-size: 1.2em;
+    }
+
+    .img-for-main {
+        max-width: 100%;
+        order: -1;
+    }
+}
+
+/* Адаптивність для мобільних */
+@media (max-width: 480px) {
+    body {
+        padding: 20px 15px;
+    }
+
+    h1 {
+        font-size: 1.6em;
+        margin-bottom: 30px;
+    }
+
+    .main-block {
+        padding: 25px;
+        border-radius: 20px;
+    }
+
+    .main-text {
+        gap: 25px;
+    }
+
+    .main-text p {
+        font-size: 1.1em;
+    }
+
+    .start-btn {
+        padding: 15px 30px;
+        font-size: 1em;
+        letter-spacing: 1.5px;
+    }
+
+    body::before,
+    body::after {
+        display: none;
+    }
 }
