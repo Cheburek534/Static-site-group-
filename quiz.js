@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'result.html';
     });
     
-    console.log('WARNING: Questions 3, 4, 5 have the same name="q3" in HTML!');
-    console.log('Please fix HTML to use name="q3", name="q4", name="q5"');
+   
     
+
 });
