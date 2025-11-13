@@ -1,77 +1,94 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    console.log('Result page loaded!');
-    
-    // Отримуємо результати з sessionStorage
+    // Отримуємо результати
     const resultsData = sessionStorage.getItem('quizResults');
     
     if (!resultsData) {
-        console.log('ERROR: No quiz results found!');
-        alert('No results found! Please take the quiz first.');
+        alert('❌ Результати не знайдено! Спочатку пройдіть квіз.');
         return;
     }
     
-    // Парсимо результати
     const results = JSON.parse(resultsData);
-    
-    console.log('=== QUIZ RESULTS ===');
-    console.log('Score:', results.score + '/' + results.maxScore);
-    console.log('Time spent:', results.timeSpent + ' seconds');
-    console.log('Answers:', results.answers);
     
     // Підраховуємо відсоток
     const percentage = Math.round((results.score / results.maxScore) * 100);
-    console.log('Percentage:', percentage + '%');
     
     // Визначаємо оцінку
     let grade = '';
+    let emoji = '';
     let message = '';
     
     if (percentage === 100) {
-        grade = 'Excellent!';
-        message = 'Perfect score! You answered all questions correctly!';
+        grade = 'Відмінно!';
+        emoji = '🏆';
+        message = 'Ви відповіли на всі питання правильно!';
     } else if (percentage >= 75) {
-        grade = 'Good!';
-        message = 'Great job! You did very well!';
+        grade = 'Добре!';
+        emoji = '🌟';
+        message = 'Чудовий результат!';
     } else if (percentage >= 50) {
-        grade = 'Not bad!';
-        message = 'You passed, but there is room for improvement!';
+        grade = 'Непогано!';
+        emoji = '👍';
+        message = 'Є куди рости, але ви впорались!';
     } else {
-        grade = 'Try again!';
-        message = 'You can do better! Try the quiz again!';
+        grade = 'Спробуйте ще!';
+        emoji = '💪';
+        message = 'Не засмучуйтесь, спробуйте ще раз!';
     }
-    
-    console.log('Grade:', grade);
-    console.log('Message:', message);
     
     // Конвертуємо час
     const minutes = Math.floor(results.timeSpent / 60);
     const seconds = results.timeSpent % 60;
-    const timeText = minutes > 0 ? minutes + ' min ' + seconds + ' sec' : seconds + ' sec';
+    const timeText = minutes > 0 ? `${minutes} хв ${seconds} сек` : `${seconds} сек`;
     
-    console.log('Time formatted:', timeText);
+    // Створюємо блок з результатами
+    const resultDiv = document.createElement('div');
+    resultDiv.style.background = 'rgba(255, 255, 255, 0.8)';
+    resultDiv.style.padding = '30px';
+    resultDiv.style.borderRadius = '15px';
+    resultDiv.style.margin = '30px auto';
+    resultDiv.style.maxWidth = '600px';
+    resultDiv.style.textAlign = 'center';
+    resultDiv.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
     
-    // Виводимо детальну інформацію про відповіді
-    console.log('=== DETAILED ANSWERS ===');
-    console.log('Question 1 (Why did you enter KPI?):', results.answers.q1);
-    console.log('Question 2 (Do you love to study in KPI?):', results.answers.q2);
-    console.log('Question 3 (Do you love My Little Pony?):', results.answers.q3);
+    resultDiv.innerHTML = `
+        <h2 style="font-size: 60px; margin: 20px 0;">${emoji}</h2>
+        <h2 style="font-size: 32px; color: #2c3e50; margin: 15px 0;">${grade}</h2>
+        <p style="font-size: 20px; color: #34495e; margin: 15px 0;">${message}</p>
+        
+        <div style="background: #ecf0f1; padding: 20px; border-radius: 10px; margin: 20px 0;">
+            <p style="font-size: 28px; font-weight: bold; color: #e74c3c; margin: 10px 0;">
+                ${results.score} з ${results.maxScore} балів
+            </p>
+            <p style="font-size: 20px; color: #7f8c8d; margin: 10px 0;">
+                ${percentage}% правильних відповідей
+            </p>
+            <p style="font-size: 18px; color: #95a5a6; margin: 10px 0;">
+                ⏱️ Витрачено часу: ${timeText}
+            </p>
+        </div>
+    `;
     
-    // Показуємо фінальне повідомлення
-    console.log('===================');
-    console.log('Final grade:', grade);
-    console.log('Your score: ' + results.score + '/' + results.maxScore + ' (' + percentage + '%)');
-    console.log('Time: ' + timeText);
-    console.log(message);
-    console.log('===================');
+    // Вставляємо після заголовка
+    const h1 = document.querySelector('h1');
+    const p = document.querySelector('p');
     
-    // Кнопка повернення на головну
+    h1.textContent = 'Ваші результати! 🎉';
+    p.textContent = '';
+    p.appendChild(resultDiv);
+    
+    // Додаємо кнопку "Пройти ще раз"
     const mainBtn = document.querySelector('.to_main-btn');
-    if (mainBtn) {
-        mainBtn.addEventListener('click', function() {
-            console.log('Returning to main page...');
-            sessionStorage.removeItem('quizResults');
-        });
-    }
+    const retryBtn = document.createElement('a');
+    retryBtn.href = 'quiz.html';
+    retryBtn.className = 'to_main-btn';
+    retryBtn.textContent = '🔄 Пройти ще раз';
+    retryBtn.style.marginRight = '15px';
+    mainBtn.parentNode.insertBefore(retryBtn, mainBtn);
+    
+    // Очищаємо результати при поверненні
+    mainBtn.addEventListener('click', function() {
+        sessionStorage.removeItem('quizResults');
+    });
     
 });
