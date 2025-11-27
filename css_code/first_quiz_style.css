@@ -176,19 +176,15 @@ button {
 button::before {
     content: '';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
+    inset: 0;
+    border-radius: inherit;
+    background: rgba(255, 255, 255, 0.25);
+    opacity: 0;
+    transition: opacity 0.4s ease;
 }
 
 button:hover::before {
-    width: 400px;
-    height: 400px;
+    opacity: 1;
 }
 
 button:hover {
@@ -346,3 +342,4 @@ button:active {
         transform: translateX(3px);
     }
 }
+
