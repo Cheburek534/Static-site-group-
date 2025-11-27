@@ -59,16 +59,59 @@ function shuffle(array) {
     return array;
 }
 
-//Select 5 random questions
-let selectedQuestions = shuffle([...allQuestions]).slice(0, 5);
+let selectedQuestions = [];
+let selectedQuestionCount = 0;
 
 document.addEventListener('DOMContentLoaded', function() {
     
+    const questionSelector = document.getElementById('questionSelector');
+    const startQuizBtn = document.getElementById('startQuizBtn');
+    const form = document.getElementById('quizForm');
+    const questionOptions = document.querySelectorAll('.question-option');
+    
+    // Обробка вибору кількості питань
+    questionOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            // Знімаємо виділення з усіх опцій
+            questionOptions.forEach(opt => opt.classList.remove('selected'));
+            
+            // Виділяємо обрану опцію
+            this.classList.add('selected');
+            
+            // Зберігаємо кількість питань
+            selectedQuestionCount = parseInt(this.dataset.count);
+            
+            // Активуємо кнопку
+            startQuizBtn.disabled = false;
+        });
+    });
+    
+    // Обробка кнопки "Почати квіз"
+    startQuizBtn.addEventListener('click', function() {
+        if (selectedQuestionCount === 0) {
+            alert('⚠️ Будь ласка, оберіть кількість питань!');
+            return;
+        }
+        
+        // Приховуємо селектор і показуємо квіз
+        questionSelector.classList.add('hidden');
+        form.classList.remove('hidden');
+        
+        // Вибираємо випадкові питання
+        selectedQuestions = shuffle([...allQuestions]).slice(0, selectedQuestionCount);
+        
+        // Запускаємо квіз
+        startQuiz();
+    });
+});
+
+function startQuiz() {
     const form = document.getElementById('quizForm');
     form.innerHTML = '';
     
     const startTime = Date.now();
     
+    // Таймер
     const timerDiv = document.createElement('div');
     timerDiv.style.position = 'fixed';
     timerDiv.style.top = '10px';
@@ -88,6 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
         timerDiv.textContent = `⏱️ Час: ${minutes}:${seconds.toString().padStart(2, '0')}`;
     }, 1000);
     
+    // Прогрес-бар
     const progressDiv = document.createElement('div');
     progressDiv.style.textAlign = 'center';
     progressDiv.style.padding = '15px';
@@ -109,16 +153,16 @@ document.addEventListener('DOMContentLoaded', function() {
         progressDiv.style.color = answered === selectedQuestions.length ? 'green' : '#e74c3c';
     }
     
-    //Create question
+    // Створюємо питання
     selectedQuestions.forEach(function(q, i) {
         
         const div = document.createElement('div');
         
         const h3 = document.createElement('h3');
-        h3.textContent = `Question ${i + 1}: ${q.question}`;
+        h3.textContent = `Питання ${i + 1}: ${q.question}`;
         div.appendChild(h3);
         
-    //Answers
+        // Відповіді
         q.answers.forEach(function(answer, j) {
             const label = document.createElement('label');
             
@@ -143,10 +187,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     updateProgress();
     
-    //End button
+    // Кнопка завершення
     const finishBtn = document.createElement('button');
     finishBtn.type = 'button';
-    finishBtn.textContent = 'Finish and see a right answer!';
+    finishBtn.textContent = 'Завершити та побачити результат!';
     finishBtn.onclick = function() {
         
         let answered = 0;
@@ -188,5 +232,4 @@ document.addEventListener('DOMContentLoaded', function() {
     btnContainer.appendChild(btnLink);
     
     form.appendChild(btnContainer);
-    
-});
+}
