@@ -9,10 +9,19 @@
 <body>
 
     <h1>Question of a quiz</h1>
+<div id="questionSelector" class="question-selector">
+        <h2>🎯 Оберіть кількість питань:</h2>
+        <div class="question-options">
+            <div class="question-option" data-count="3">3 питання</div>
+            <div class="question-option" data-count="5">5 питань</div>
+            <div class="question-option" data-count="7">7 питань</div>
+            <div class="question-option" data-count="10">10 питань</div>
+        </div>
+        <button id="startQuizBtn" class="start-quiz-btn" disabled>Почати квіз</button>
+    </div>
 
-    <form id="quizForm">
-        
-    </form>
+    <form id="quizForm" class="hidden"></form>
+    
 <script src="../JS_code/quiz.js"></script>
 </body>
 
