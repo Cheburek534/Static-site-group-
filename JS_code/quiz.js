@@ -61,7 +61,7 @@ function shuffle(array) {
 
 let selectedQuestions = [];
 let selectedQuestionCount = 0;
-let startTime = 0;
+let startTime = 0; // Змінна для часу
 
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const startQuizBtn = document.getElementById('startQuizBtn');
     const form = document.getElementById('quizForm');
     const questionOptions = document.querySelectorAll('.question-option');
-    const nameInput = document.getElementById('playerName'); 
+    const nameInput = document.getElementById('playerName'); // Отримуємо поле імені
     
     questionOptions.forEach(option => {
         option.addEventListener('click', function() {
@@ -81,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     startQuizBtn.addEventListener('click', function() {
+        // 1. Перевірка імені
         const playerName = nameInput.value.trim();
         if (playerName === '') {
             alert('⚠️ Будь ласка, введіть ваше ім\'я!');
@@ -108,7 +109,7 @@ function startQuiz() {
     const form = document.getElementById('quizForm');
     form.innerHTML = '';
     
-    startTime = Date.now();
+    startTime = Date.now(); // Засікаємо час
     
     const timerDiv = document.createElement('div');
     timerDiv.style.position = 'fixed';
@@ -170,14 +171,18 @@ function startQuiz() {
         
         form.appendChild(div);
     });
+    
     updateProgress();
+    
     const finishBtn = document.createElement('button');
     finishBtn.type = 'button';
     finishBtn.textContent = 'Завершити тест';
     finishBtn.style.marginTop = '20px';
+    
     finishBtn.onclick = function() {
         let answered = 0;
         let score = 0;
+        
         for (let i = 0; i < selectedQuestions.length; i++) {
             const selected = form.querySelector(`input[name="q${i}"]:checked`);
             if (selected) {
@@ -192,15 +197,27 @@ function startQuiz() {
             alert('⚠️ Будь ласка, дайте відповідь на всі питання!');
             return;
         }
+        
         clearInterval(timerInterval);
         const timeSpentSeconds = Math.floor((Date.now() - startTime) / 1000);
-        sessionStorage.setItem('quizResults', JSON.stringify({
+        
+        const currentResult = {
+            name: sessionStorage.getItem('quizPlayerName'),
             score: score,
             maxScore: selectedQuestions.length,
-            timeSpent: timeSpentSeconds
-        }));
-        window.location.href = 'result.html';
+            timeSpent: timeSpentSeconds,
+            date: new Date().toLocaleString('uk-UA')
+        };
+
+        sessionStorage.setItem('quizResults', JSON.stringify(currentResult));
+        
+        let history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
+        history.push(currentResult);
+        localStorage.setItem('quizHistory', JSON.stringify(history));
+        
+        window.location.href = 'result.html'; 
     };
+    
     const btnContainer = document.createElement('div');
     btnContainer.style.textAlign = 'center';
     btnContainer.appendChild(finishBtn);
