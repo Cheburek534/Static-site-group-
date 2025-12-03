@@ -12,6 +12,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    /* Додано, щоб вирівняти все по вертикалі */
+    flex-direction: column; 
 }
 
 h1 {
@@ -21,6 +23,11 @@ h1 {
     margin-bottom: 40px;
     text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
     animation: fadeInDown 0.8s ease;
+}
+
+/* Цей клас тепер працює і ховає форму до початку квізу */
+.hidden {
+    display: none !important;
 }
 
 #quizForm {
@@ -342,4 +349,3 @@ button:active {
         transform: translateX(3px);
     }
 }
-
