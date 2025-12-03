@@ -12,7 +12,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* Додано, щоб вирівняти все по вертикалі */
     flex-direction: column; 
 }
 
@@ -25,7 +24,6 @@ h1 {
     animation: fadeInDown 0.8s ease;
 }
 
-/* Цей клас тепер працює і ховає форму до початку квізу */
 .hidden {
     display: none !important;
 }
@@ -240,7 +238,6 @@ button:active {
     }
 }
 
-/* Анімація появи питань */
 #quizForm > div {
     animation: slideIn 0.6s ease forwards;
     opacity: 0;
@@ -263,7 +260,6 @@ button:active {
     }
 }
 
-/* Прогрес-бар */
 .progress-container {
     position: fixed;
     top: 0;
@@ -282,7 +278,6 @@ button:active {
     box-shadow: 0 0 10px rgba(102, 126, 234, 0.8);
 }
 
-/* Адаптивність */
 @media (max-width: 768px) {
     body {
         padding: 20px 10px;
@@ -347,5 +342,158 @@ button:active {
 
     label:hover {
         transform: translateX(3px);
+    }
+}
+
+
+.results-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    width: 100%;
+    max-width: 1100px;
+    animation: fadeInUp 0.8s ease;
+}
+
+.result-card {
+    background: white;
+    padding: 40px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    flex: 1.5; /* Займає більше місця */
+    min-width: 300px;
+}
+
+.score-big {
+    font-size: 80px;
+    font-weight: bold;
+    color: #667eea;
+    margin: 20px 0;
+    text-shadow: 2px 2px 0px #eee;
+}
+
+.stats {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 30px;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 15px;
+    /* Скидаємо стилі загального div */
+    transition: none;
+    border: none;
+}
+.stats:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.stat-item {
+    margin: 10px 0;
+    border-bottom: 1px dashed #ddd;
+    padding-bottom: 10px;
+}
+.stat-item:last-child {
+    border-bottom: none;
+}
+
+.history-card {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    flex: 1; /* Займає менше місця */
+    min-width: 280px;
+    max-height: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.history-card h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    border-left: none; /* Прибираємо смужку з загальних стилів */
+    padding-left: 0;
+}
+.history-card h3::before { content: none; } /* Прибираємо іконку питання */
+
+.history-list {
+    overflow-y: auto;
+    padding-right: 5px;
+    flex-grow: 1;
+}
+
+.history-item {
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    border-left: 5px solid #764ba2;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+    /* Перевизначаємо загальні стилі div */
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+}
+
+.history-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.h-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+}
+
+.h-score {
+    color: #667eea;
+}
+
+.h-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    color: #777;
+}
+
+.clear-btn {
+    margin-top: 15px;
+    padding: 10px;
+    font-size: 0.9em;
+    background: #ff7675;
+    width: 100%;
+    box-shadow: none;
+    border-radius: 15px;
+}
+.clear-btn:hover {
+    background: #d63031;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(214, 48, 49, 0.3);
+}
+
+.history-list::-webkit-scrollbar {
+    width: 6px;
+}
+.history-list::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}
+
+@media (max-width: 850px) {
+    .results-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .result-card, .history-card {
+        width: 100%;
+        flex: none;
     }
 }
