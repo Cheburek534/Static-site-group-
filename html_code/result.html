@@ -6,7 +6,6 @@
     <title>Результат Квізу</title>
     <link rel="stylesheet" href="../css_code/first_quiz_style.css">
     <style>
-        /* Додаткові стилі спеціально для сторінки результату */
         .result-card {
             background: white;
             padding: 50px;
@@ -70,28 +69,19 @@
     </div>
 
     <script>
-        // Скрипт для зчитування результатів
         document.addEventListener('DOMContentLoaded', function() {
-            // Отримуємо дані з пам'яті браузера
             const results = JSON.parse(sessionStorage.getItem('quizResults'));
             const name = sessionStorage.getItem('quizPlayerName');
-
             if (results && name) {
-                // Виводимо ім'я
                 document.getElementById('greeting').textContent = `Вітаємо, ${name}!`;
                 document.getElementById('playerName').textContent = name;
-
-                // Виводимо бали
                 document.getElementById('score').textContent = results.score;
                 document.getElementById('total').textContent = results.maxScore;
-
-                // Форматуємо і виводимо час
                 const minutes = Math.floor(results.timeSpent / 60);
                 const seconds = results.timeSpent % 60;
                 const timeString = `${minutes} хв ${seconds} сек`;
                 document.getElementById('timeSpent').textContent = timeString;
 
-                // Змінюємо повідомлення в залежності від результату
                 const percentage = (results.score / results.maxScore) * 100;
                 const msgElement = document.getElementById('message');
                 
@@ -103,7 +93,6 @@
                     msgElement.textContent = "📚 Треба ще трохи піівчитися!";
                 }
             } else {
-                // Якщо даних немає (наприклад, відкрили сторінку напряму)
                 window.location.href = 'quiz.html';
             }
         });
