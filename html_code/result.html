@@ -5,97 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Результат Квізу</title>
     <link rel="stylesheet" href="../css_code/first_quiz_style.css">
-    <style>
-        .result-card {
-            background: white;
-            padding: 50px;
-            border-radius: 25px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 600px;
-            width: 100%;
-            animation: fadeInUp 0.8s ease;
-        }
-        .score-big {
-            font-size: 80px;
-            font-weight: bold;
-            color: #667eea;
-            margin: 20px 0;
-            text-shadow: 2px 2px 0px #eee;
-        }
-        .stats {
-            font-size: 1.2em;
-            color: #555;
-            margin-bottom: 30px;
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 15px;
-        }
-        .stat-item {
-            margin: 10px 0;
-            border-bottom: 1px dashed #ddd;
-            padding-bottom: 10px;
-        }
-        .stat-item:last-child {
-            border-bottom: none;
-        }
-    </style>
 </head>
 <body>
 
     <h1>🏆 Результати Квізу</h1>
 
-    <div class="result-card">
-        <h2 id="greeting">Вітаємо!</h2>
+    <div class="results-wrapper">
         
-        <div class="score-big">
-            <span id="score">0</span>/<span id="total">0</span>
+        <div class="result-card">
+            <h2 id="greeting">Вітаємо!</h2>
+            
+            <div class="score-big">
+                <span id="score">0</span>/<span id="total">0</span>
+            </div>
+
+            <div class="stats">
+                <div class="stat-item">
+                    👤 Гравець: <strong id="playerName">-</strong>
+                </div>
+                <div class="stat-item">
+                    ⏱️ Час: <strong id="timeSpent">-</strong>
+                </div>
+            </div>
+
+            <p id="message">Чудова робота!</p>
+
+            <a href="quiz.html">
+                <button>Спробувати ще раз</button>
+            </a>
         </div>
 
-        <div class="stats">
-            <div class="stat-item">
-                👤 Гравець: <strong id="playerName">-</strong>
-            </div>
-            <div class="stat-item">
-                ⏱️ Час проходження: <strong id="timeSpent">-</strong>
-            </div>
+        <div class="history-card">
+            <h3>📜 Історія ігор</h3>
+            <div class="history-list" id="historyList">
+                </div>
+            <button onclick="clearHistory()" class="clear-btn">Очистити історію</button>
         </div>
 
-        <p id="message">Чудова робота!</p>
-
-        <a href="quiz.html">
-            <button>Спробувати ще раз</button>
-        </a>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // 1. ВІДОБРАЖЕННЯ ПОТОЧНОГО РЕЗУЛЬТАТУ
             const results = JSON.parse(sessionStorage.getItem('quizResults'));
-            const name = sessionStorage.getItem('quizPlayerName');
-            if (results && name) {
-                document.getElementById('greeting').textContent = `Вітаємо, ${name}!`;
-                document.getElementById('playerName').textContent = name;
+            
+            if (results) {
+                document.getElementById('greeting').textContent = `Вітаємо, ${results.name}!`;
+                document.getElementById('playerName').textContent = results.name;
                 document.getElementById('score').textContent = results.score;
                 document.getElementById('total').textContent = results.maxScore;
+
                 const minutes = Math.floor(results.timeSpent / 60);
                 const seconds = results.timeSpent % 60;
-                const timeString = `${minutes} хв ${seconds} сек`;
-                document.getElementById('timeSpent').textContent = timeString;
+                document.getElementById('timeSpent').textContent = `${minutes} хв ${seconds} сек`;
 
                 const percentage = (results.score / results.maxScore) * 100;
                 const msgElement = document.getElementById('message');
                 
-                if (percentage === 100) {
-                    msgElement.textContent = "🥇 Неймовірно! Ви геній!";
-                } else if (percentage >= 50) {
-                    msgElement.textContent = "👍 Непоганий результат!";
-                } else {
-                    msgElement.textContent = "📚 Треба ще трохи піівчитися!";
-                }
+                if (percentage === 100) msgElement.textContent = "🥇 Неймовірно! Ви геній!";
+                else if (percentage >= 50) msgElement.textContent = "👍 Непоганий результат!";
+                else msgElement.textContent = "📚 Треба ще трохи попрактикуватися!";
             } else {
+                // Якщо відкрили сторінку без проходження тесту
                 window.location.href = 'quiz.html';
             }
+
+            // 2. ВІДОБРАЖЕННЯ ІСТОРІЇ
+            const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
+            const listContainer = document.getElementById('historyList');
+            
+            // Сортуємо: нові зверху
+            history.reverse().forEach((game) => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                
+                // Форматуємо час для історії
+                const m = Math.floor(game.timeSpent / 60);
+                const s = game.timeSpent % 60;
+                const timeStr = m > 0 ? `${m}хв ${s}с` : `${s}сек`;
+
+                item.innerHTML = `
+                    <div class="h-header">
+                        <span class="h-name">${game.name}</span>
+                        <span class="h-score">${game.score}/${game.maxScore}</span>
+                    </div>
+                    <div class="h-footer">
+                        <span>⏱️ ${timeStr}</span>
+                        <span style="font-size: 0.8em; opacity: 0.7;">${game.date || ''}</span>
+                    </div>
+                `;
+                listContainer.appendChild(item);
+            });
+            
+            if (history.length === 0) {
+                listContainer.innerHTML = '<p style="text-align:center; opacity:0.6; padding-top:20px;">Поки немає записів</p>';
+            }
         });
+
+        function clearHistory() {
+            if(confirm('Видалити всю історію ігор?')) {
+                localStorage.removeItem('quizHistory');
+                location.reload();
+            }
+        }
     </script>
 </body>
 </html>
