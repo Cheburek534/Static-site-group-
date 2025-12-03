@@ -9,8 +9,15 @@
 <body>
 
     <h1>Question of a quiz</h1>
-<div id="questionSelector" class="question-selector">
-        <h2>🎯 Оберіть кількість питань:</h2>
+    
+    <div id="questionSelector" class="question-selector">
+        <h2>🎯 Налаштування:</h2>
+        
+        <div style="margin-bottom: 20px; text-align: center;">
+            <input type="text" id="playerName" placeholder="Введіть ваше ім'я" autocomplete="off" 
+                   style="padding: 10px 20px; font-size: 1.1em; border-radius: 20px; border: 1px solid #ccc; width: 80%; max-width: 300px;">
+        </div>
+        <h3>Оберіть кількість питань:</h3>
         <div class="question-options">
             <div class="question-option" data-count="3">3 питання</div>
             <div class="question-option" data-count="5">5 питань</div>
@@ -22,7 +29,6 @@
 
     <form id="quizForm" class="hidden"></form>
     
-<script src="../JS_code/quiz.js"></script>
+    <script src="../JS_code/quiz.js"></script>
 </body>
-
 </html>

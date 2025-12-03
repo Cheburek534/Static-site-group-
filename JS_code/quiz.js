@@ -61,6 +61,7 @@ function shuffle(array) {
 
 let selectedQuestions = [];
 let selectedQuestionCount = 0;
+let startTime = 0; // Змінна для часу
 
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -68,39 +69,42 @@ document.addEventListener('DOMContentLoaded', function() {
     const startQuizBtn = document.getElementById('startQuizBtn');
     const form = document.getElementById('quizForm');
     const questionOptions = document.querySelectorAll('.question-option');
+    const nameInput = document.getElementById('playerName'); // Отримуємо поле імені
     
     // Обробка вибору кількості питань
     questionOptions.forEach(option => {
         option.addEventListener('click', function() {
-            // Знімаємо виділення з усіх опцій
             questionOptions.forEach(opt => opt.classList.remove('selected'));
-            
-            // Виділяємо обрану опцію
             this.classList.add('selected');
-            
-            // Зберігаємо кількість питань
             selectedQuestionCount = parseInt(this.dataset.count);
-            
-            // Активуємо кнопку
             startQuizBtn.disabled = false;
         });
     });
     
     // Обробка кнопки "Почати квіз"
     startQuizBtn.addEventListener('click', function() {
+        // 1. Перевірка імені
+        const playerName = nameInput.value.trim();
+        if (playerName === '') {
+            alert('⚠️ Будь ласка, введіть ваше ім\'я!');
+            nameInput.focus();
+            return;
+        }
+
         if (selectedQuestionCount === 0) {
             alert('⚠️ Будь ласка, оберіть кількість питань!');
             return;
         }
         
+        // Зберігаємо ім'я в пам'ять
+        sessionStorage.setItem('quizPlayerName', playerName);
+
         // Приховуємо селектор і показуємо квіз
         questionSelector.classList.add('hidden');
         form.classList.remove('hidden');
         
-        // Вибираємо випадкові питання
         selectedQuestions = shuffle([...allQuestions]).slice(0, selectedQuestionCount);
         
-        // Запускаємо квіз
         startQuiz();
     });
 });
@@ -109,22 +113,23 @@ function startQuiz() {
     const form = document.getElementById('quizForm');
     form.innerHTML = '';
     
-    const startTime = Date.now();
+    startTime = Date.now(); // Засікаємо час
     
-    // Таймер
+    // Таймер на екрані
     const timerDiv = document.createElement('div');
     timerDiv.style.position = 'fixed';
     timerDiv.style.top = '10px';
     timerDiv.style.right = '10px';
     timerDiv.style.padding = '15px';
-    timerDiv.style.background = 'rgba(154, 238, 232, 0.9)';
+    timerDiv.style.background = 'rgba(255, 255, 255, 0.9)';
     timerDiv.style.borderRadius = '10px';
     timerDiv.style.fontSize = '18px';
     timerDiv.style.fontWeight = 'bold';
     timerDiv.style.zIndex = '1000';
+    timerDiv.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';
     document.body.appendChild(timerDiv);
     
-    setInterval(function() {
+    const timerInterval = setInterval(function() {
         const elapsed = Math.floor((Date.now() - startTime) / 1000);
         const minutes = Math.floor(elapsed / 60);
         const seconds = elapsed % 60;
@@ -135,11 +140,10 @@ function startQuiz() {
     const progressDiv = document.createElement('div');
     progressDiv.style.textAlign = 'center';
     progressDiv.style.padding = '15px';
-    progressDiv.style.background = '#f0f0f0';
-    progressDiv.style.borderRadius = '10px';
-    progressDiv.style.margin = '20px 0';
+    progressDiv.style.marginBottom = '20px';
     progressDiv.style.fontSize = '18px';
     progressDiv.style.fontWeight = 'bold';
+    progressDiv.style.color = '#555';
     form.appendChild(progressDiv);
     
     function updateProgress() {
@@ -149,23 +153,18 @@ function startQuiz() {
                 answered++;
             }
         }
-        progressDiv.textContent = `📝 Відповіли на ${answered} з ${selectedQuestions.length} питань`;
-        progressDiv.style.color = answered === selectedQuestions.length ? 'green' : '#e74c3c';
+        progressDiv.textContent = `📝 Питання ${answered} з ${selectedQuestions.length}`;
     }
     
-    // Створюємо питання
+    // Генерація питань
     selectedQuestions.forEach(function(q, i) {
-        
         const div = document.createElement('div');
-        
         const h3 = document.createElement('h3');
         h3.textContent = `Питання ${i + 1}: ${q.question}`;
         div.appendChild(h3);
         
-        // Відповіді
         q.answers.forEach(function(answer, j) {
             const label = document.createElement('label');
-            
             const input = document.createElement('input');
             input.type = 'radio';
             input.name = `q${i}`;
@@ -175,14 +174,9 @@ function startQuiz() {
             label.appendChild(input);
             label.appendChild(document.createTextNode(' ' + answer));
             div.appendChild(label);
-            div.appendChild(document.createElement('br'));
         });
         
         form.appendChild(div);
-        
-        if (i < selectedQuestions.length - 1) {
-            form.appendChild(document.createElement('hr'));
-        }
     });
     
     updateProgress();
@@ -190,15 +184,15 @@ function startQuiz() {
     // Кнопка завершення
     const finishBtn = document.createElement('button');
     finishBtn.type = 'button';
-    finishBtn.textContent = 'Завершити та побачити результат!';
+    finishBtn.textContent = 'Завершити тест';
+    finishBtn.style.marginTop = '20px';
+    
     finishBtn.onclick = function() {
-        
         let answered = 0;
         let score = 0;
         
         for (let i = 0; i < selectedQuestions.length; i++) {
             const selected = form.querySelector(`input[name="q${i}"]:checked`);
-            
             if (selected) {
                 answered++;
                 if (parseInt(selected.value) === selectedQuestions[i].correct) {
@@ -212,24 +206,23 @@ function startQuiz() {
             return;
         }
         
-        const timeSpent = Math.floor((Date.now() - startTime) / 1000);
+        // Зупиняємо таймер і рахуємо фінальний час
+        clearInterval(timerInterval);
+        const timeSpentSeconds = Math.floor((Date.now() - startTime) / 1000);
         
+        // Зберігаємо результати
         sessionStorage.setItem('quizResults', JSON.stringify({
             score: score,
             maxScore: selectedQuestions.length,
-            timeSpent: timeSpent
+            timeSpent: timeSpentSeconds
         }));
         
-        window.location.href = 'result.html';
+        // Переходимо на сторінку результату
+        window.location.href = 'result.html'; // Переконайтеся, що файл називається саме так
     };
     
     const btnContainer = document.createElement('div');
     btnContainer.style.textAlign = 'center';
-    btnContainer.style.marginTop = '30px';
-    
-    const btnLink = document.createElement('a');
-    btnLink.appendChild(finishBtn);
-    btnContainer.appendChild(btnLink);
-    
+    btnContainer.appendChild(finishBtn);
     form.appendChild(btnContainer);
 }

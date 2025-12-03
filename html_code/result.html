@@ -3,18 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your results!</title>
-
-    <link rel="stylesheet" href="../css_code/first_result_style.css">
+    <title>Результат Квізу</title>
+    <link rel="stylesheet" href="../css_code/first_quiz_style.css">
+    <style>
+        /* Додаткові стилі спеціально для сторінки результату */
+        .result-card {
+            background: white;
+            padding: 50px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            animation: fadeInUp 0.8s ease;
+        }
+        .score-big {
+            font-size: 80px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+            text-shadow: 2px 2px 0px #eee;
+        }
+        .stats {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+        }
+        .stat-item {
+            margin: 10px 0;
+            border-bottom: 1px dashed #ddd;
+            padding-bottom: 10px;
+        }
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+    </style>
 </head>
 <body>
 
-    <h1>Результати квізу та т.д.</h1>
-    
-    <p>Квіз завершено! Нумо вип'ємо за це по 50!</p>
+    <h1>🏆 Результати Квізу</h1>
 
-    <a href="../html_code/index.html" class="to_main-btn">Повернутися на головну</a>
-<script src="../JS_code/result.js"></script>
+    <div class="result-card">
+        <h2 id="greeting">Вітаємо!</h2>
+        
+        <div class="score-big">
+            <span id="score">0</span>/<span id="total">0</span>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                👤 Гравець: <strong id="playerName">-</strong>
+            </div>
+            <div class="stat-item">
+                ⏱️ Час проходження: <strong id="timeSpent">-</strong>
+            </div>
+        </div>
+
+        <p id="message">Чудова робота!</p>
+
+        <a href="quiz.html">
+            <button>Спробувати ще раз</button>
+        </a>
+    </div>
+
+    <script>
+        // Скрипт для зчитування результатів
+        document.addEventListener('DOMContentLoaded', function() {
+            // Отримуємо дані з пам'яті браузера
+            const results = JSON.parse(sessionStorage.getItem('quizResults'));
+            const name = sessionStorage.getItem('quizPlayerName');
+
+            if (results && name) {
+                // Виводимо ім'я
+                document.getElementById('greeting').textContent = `Вітаємо, ${name}!`;
+                document.getElementById('playerName').textContent = name;
+
+                // Виводимо бали
+                document.getElementById('score').textContent = results.score;
+                document.getElementById('total').textContent = results.maxScore;
+
+                // Форматуємо і виводимо час
+                const minutes = Math.floor(results.timeSpent / 60);
+                const seconds = results.timeSpent % 60;
+                const timeString = `${minutes} хв ${seconds} сек`;
+                document.getElementById('timeSpent').textContent = timeString;
+
+                // Змінюємо повідомлення в залежності від результату
+                const percentage = (results.score / results.maxScore) * 100;
+                const msgElement = document.getElementById('message');
+                
+                if (percentage === 100) {
+                    msgElement.textContent = "🥇 Неймовірно! Ви геній!";
+                } else if (percentage >= 50) {
+                    msgElement.textContent = "👍 Непоганий результат!";
+                } else {
+                    msgElement.textContent = "📚 Треба ще трохи піівчитися!";
+                }
+            } else {
+                // Якщо даних немає (наприклад, відкрили сторінку напряму)
+                window.location.href = 'quiz.html';
+            }
+        });
+    </script>
 </body>
-
 </html>
