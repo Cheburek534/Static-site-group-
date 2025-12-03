@@ -61,7 +61,7 @@ function shuffle(array) {
 
 let selectedQuestions = [];
 let selectedQuestionCount = 0;
-let startTime = 0; // Змінна для часу
+let startTime = 0;
 
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -69,9 +69,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const startQuizBtn = document.getElementById('startQuizBtn');
     const form = document.getElementById('quizForm');
     const questionOptions = document.querySelectorAll('.question-option');
-    const nameInput = document.getElementById('playerName'); // Отримуємо поле імені
+    const nameInput = document.getElementById('playerName'); 
     
-    // Обробка вибору кількості питань
     questionOptions.forEach(option => {
         option.addEventListener('click', function() {
             questionOptions.forEach(opt => opt.classList.remove('selected'));
@@ -81,9 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Обробка кнопки "Почати квіз"
     startQuizBtn.addEventListener('click', function() {
-        // 1. Перевірка імені
         const playerName = nameInput.value.trim();
         if (playerName === '') {
             alert('⚠️ Будь ласка, введіть ваше ім\'я!');
@@ -96,10 +93,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Зберігаємо ім'я в пам'ять
         sessionStorage.setItem('quizPlayerName', playerName);
 
-        // Приховуємо селектор і показуємо квіз
         questionSelector.classList.add('hidden');
         form.classList.remove('hidden');
         
@@ -113,9 +108,8 @@ function startQuiz() {
     const form = document.getElementById('quizForm');
     form.innerHTML = '';
     
-    startTime = Date.now(); // Засікаємо час
+    startTime = Date.now();
     
-    // Таймер на екрані
     const timerDiv = document.createElement('div');
     timerDiv.style.position = 'fixed';
     timerDiv.style.top = '10px';
@@ -136,7 +130,6 @@ function startQuiz() {
         timerDiv.textContent = `⏱️ Час: ${minutes}:${seconds.toString().padStart(2, '0')}`;
     }, 1000);
     
-    // Прогрес-бар
     const progressDiv = document.createElement('div');
     progressDiv.style.textAlign = 'center';
     progressDiv.style.padding = '15px';
@@ -156,7 +149,6 @@ function startQuiz() {
         progressDiv.textContent = `📝 Питання ${answered} з ${selectedQuestions.length}`;
     }
     
-    // Генерація питань
     selectedQuestions.forEach(function(q, i) {
         const div = document.createElement('div');
         const h3 = document.createElement('h3');
@@ -178,19 +170,14 @@ function startQuiz() {
         
         form.appendChild(div);
     });
-    
     updateProgress();
-    
-    // Кнопка завершення
     const finishBtn = document.createElement('button');
     finishBtn.type = 'button';
     finishBtn.textContent = 'Завершити тест';
     finishBtn.style.marginTop = '20px';
-    
     finishBtn.onclick = function() {
         let answered = 0;
         let score = 0;
-        
         for (let i = 0; i < selectedQuestions.length; i++) {
             const selected = form.querySelector(`input[name="q${i}"]:checked`);
             if (selected) {
@@ -205,22 +192,15 @@ function startQuiz() {
             alert('⚠️ Будь ласка, дайте відповідь на всі питання!');
             return;
         }
-        
-        // Зупиняємо таймер і рахуємо фінальний час
         clearInterval(timerInterval);
         const timeSpentSeconds = Math.floor((Date.now() - startTime) / 1000);
-        
-        // Зберігаємо результати
         sessionStorage.setItem('quizResults', JSON.stringify({
             score: score,
             maxScore: selectedQuestions.length,
             timeSpent: timeSpentSeconds
         }));
-        
-        // Переходимо на сторінку результату
-        window.location.href = 'result.html'; // Переконайтеся, що файл називається саме так
+        window.location.href = 'result.html';
     };
-    
     const btnContainer = document.createElement('div');
     btnContainer.style.textAlign = 'center';
     btnContainer.appendChild(finishBtn);
