@@ -46,7 +46,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. ВІДОБРАЖЕННЯ ПОТОЧНОГО РЕЗУЛЬТАТУ
+            
             const results = JSON.parse(sessionStorage.getItem('quizResults'));
             
             if (results) {
@@ -66,20 +66,20 @@
                 else if (percentage >= 50) msgElement.textContent = "👍 Непоганий результат!";
                 else msgElement.textContent = "📚 Треба ще трохи попрактикуватися!";
             } else {
-                // Якщо відкрили сторінку без проходження тесту
+                
                 window.location.href = 'quiz.html';
             }
 
-            // 2. ВІДОБРАЖЕННЯ ІСТОРІЇ
+            
             const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
             const listContainer = document.getElementById('historyList');
             
-            // Сортуємо: нові зверху
+            
             history.reverse().forEach((game) => {
                 const item = document.createElement('div');
                 item.className = 'history-item';
                 
-                // Форматуємо час для історії
+                
                 const m = Math.floor(game.timeSpent / 60);
                 const s = game.timeSpent % 60;
                 const timeStr = m > 0 ? `${m}хв ${s}с` : `${s}сек`;
