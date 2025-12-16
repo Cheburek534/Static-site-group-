@@ -294,7 +294,7 @@ button:active {
     border-radius: 25px;
     text-align: center;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    flex: 1.5; /* Займає більше місця */
+    flex: 1.5;
     min-width: 300px;
 }
 
@@ -313,7 +313,6 @@ button:active {
     background: #f8f9fa;
     padding: 20px;
     border-radius: 15px;
-    /* Скидаємо стилі загального div */
     transition: none;
     border: none;
 }
@@ -336,7 +335,7 @@ button:active {
     padding: 30px;
     border-radius: 25px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    flex: 1; /* Займає менше місця */
+    flex: 1;
     min-width: 280px;
     max-height: 600px;
     display: flex;
@@ -346,10 +345,10 @@ button:active {
 .history-card h3 {
     text-align: center;
     margin-bottom: 20px;
-    border-left: none; /* Прибираємо смужку з загальних стилів */
+    border-left: none;
     padding-left: 0;
 }
-.history-card h3::before { content: none; } /* Прибираємо іконку питання */
+.history-card h3::before { content: none; }
 
 .history-list {
     overflow-y: auto;
@@ -365,7 +364,6 @@ button:active {
     border-left: 5px solid #764ba2;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     transition: transform 0.2s;
-    /* Перевизначаємо загальні стилі div */
     border-top: none;
     border-right: none;
     border-bottom: none;
@@ -448,7 +446,6 @@ button:active {
   text-align: center;
 }
 
-/* --- Question count options (3/5/7/10) --- */
 .question-options{
   display: flex;
   flex-wrap: wrap;
@@ -475,7 +472,6 @@ button:active {
   overflow: hidden;
 }
 
-/* Такий самий "градієнтний підсвіт" як у label::before */
 .question-option::before{
   content: '';
   position: absolute;
@@ -498,7 +494,6 @@ button:active {
   box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
 }
 
-/* ✅ Виділений варіант */
 .question-option.selected{
   background: linear-gradient(135deg, #e7e9ff 0%, #f0f1ff 100%);
   border-color: #667eea;
@@ -506,7 +501,6 @@ button:active {
   transform: translateY(-2px);
 }
 
-/* Текст поверх підсвітки */
 .question-option{
   z-index: 1;
 }
@@ -514,4 +508,10 @@ button:active {
 .start-quiz-btn{
   display: block;
   margin: 30px auto 0 auto;
+}
+
+.h-quiz{
+  font-size: 0.95em;
+  opacity: 0.85;
+  margin: 6px 0 2px;
 }

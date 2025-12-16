@@ -1,4 +1,3 @@
-// База даних питань по категоріях
 const quizDatabase = {
     mix: [
         { question: "Why did you enter KPI?", answers: ["I don't know", "Я не знаю", "Тому що це найкращий технічний університет України"], correct: 2 },
@@ -49,7 +48,7 @@ const quizDatabase = {
         { question: "Хто заснував Microsoft?", answers: ["Стів Джобс", "Білл Гейтс", "Марк Цукерберг"], correct: 1 },
         { question: "Основний пристрій для введення тексту:", answers: ["Монітор", "Клавіатура", "Принтер"], correct: 1 },
         { question: "Що таке штучний інтелект?", answers: ["Людський розум", "Програма, що імітує мислення", "Робот"], correct: 1 },
-        { question: "Яка мова програмування популярна для вебу?", answers: ["HTML", "Python", "Java"], correct: 1 }, // Python часто використовується для бекенду, HTML - розмітка. Якщо "мова програмування", то Python.
+        { question: "Яка мова програмування популярна для вебу?", answers: ["HTML", "Python", "Java"], correct: 1 },
         { question: "Що зберігає дані постійно?", answers: ["ОЗП", "Процесор", "Жорсткий диск"], correct: 2 },
         { question: "Що таке Інтернет?", answers: ["Програма", "Всесвітня мережа", "Сервер"], correct: 1 },
         { question: "Що означає «хмарне сховище»?", answers: ["Збереження на флешці", "Онлайн-зберігання", "Архівування"], correct: 1 },
@@ -80,7 +79,6 @@ const quizDatabase = {
     ]
 };
 
-// Функція перемішування
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
@@ -93,17 +91,21 @@ let selectedQuestions = [];
 let selectedQuestionCount = 0;
 let startTime = 0;
 
+// ✅ ДОДАНО: поточний квіз (тема + назва) для запису в результати
+let currentTopic = 'mix';
+let currentQuizTitle = 'Квіз';
+
 document.addEventListener('DOMContentLoaded', function() {
     
-    // --- ЗМІНА ТУТ: Отримуємо тему з SessionStorage ---
-    const topic = sessionStorage.getItem('selectedTopic') || 'mix'; // За замовчуванням mix
-    let currentQuestions = quizDatabase[topic];
+    // ✅ ЗМІНЕНО: topic -> currentTopic (щоб було доступно в startQuiz/finish)
+    currentTopic = sessionStorage.getItem('selectedTopic') || 'mix';
+    let currentQuestions = quizDatabase[currentTopic];
 
     if (!currentQuestions) {
-        currentQuestions = quizDatabase['mix']; // Fallback
+        currentQuestions = quizDatabase['mix'];
+        currentTopic = 'mix';
     }
 
-    // Змінимо заголовок сторінки відповідно до теми
     const titles = {
         'history': 'Історія Світу та України',
         'science': 'Наука та Природа',
@@ -112,10 +114,11 @@ document.addEventListener('DOMContentLoaded', function() {
         'mix': 'Загальний мікс'
     };
     
-    const h1 = document.querySelector('h1');
-    if(h1) h1.textContent = titles[topic] || 'Квіз';
+    // ✅ ДОДАНО: зберігаємо назву квізу
+    currentQuizTitle = titles[currentTopic] || 'Квіз';
 
-    // --------------------------------------------------
+    const h1 = document.querySelector('h1');
+    if (h1) h1.textContent = currentQuizTitle;
     
     const questionSelector = document.getElementById('questionSelector');
     const startQuizBtn = document.getElementById('startQuizBtn');
@@ -150,7 +153,6 @@ document.addEventListener('DOMContentLoaded', function() {
         questionSelector.classList.add('hidden');
         form.classList.remove('hidden');
         
-        // Використовуємо питання з обраної теми
         selectedQuestions = shuffle([...currentQuestions]).slice(0, selectedQuestionCount);
         
         startQuiz();
@@ -239,7 +241,10 @@ function startQuiz() {
         clearInterval(timerInterval);
         const timeSpentSeconds = Math.floor((Date.now() - startTime) / 1000);
         
+        // ✅ ЗМІНЕНО: додаємо назву/тему квізу в результат
         const currentResult = {
+            quizTopic: currentTopic,
+            quizTitle: currentQuizTitle,
             name: sessionStorage.getItem('quizPlayerName'),
             score: score,
             maxScore: selectedQuestions.length,

@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // 1) Результат поточної гри
   const resultsData = sessionStorage.getItem('quizResults');
   if (!resultsData) {
     window.location.href = 'quiz.html';
@@ -8,8 +7,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const results = JSON.parse(resultsData);
 
-  // Заповнюємо верхню картку
-  document.getElementById('greeting').textContent = `Вітаємо, ${results.name}!`;
+  // ✅ Назва квізу (щоб старі результати не ламались)
+  const currentQuizTitle = results.quizTitle || 'Квіз';
+
+  // ✅ Показуємо який квіз пройшли
+  document.getElementById('greeting').textContent =
+    `Вітаємо, ${results.name}! Квіз: «${currentQuizTitle}»`;
+
   document.getElementById('playerName').textContent = results.name;
   document.getElementById('score').textContent = results.score;
   document.getElementById('total').textContent = results.maxScore;
@@ -26,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function () {
   else if (percentage >= 50) msgElement.textContent = "👍 Непогано! Є куди рости.";
   else msgElement.textContent = "📚 Спробуйте ще раз — все вийде!";
 
-  // 2) Історія ігор
   const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
   const listContainer = document.getElementById('historyList');
   listContainer.innerHTML = '';
@@ -36,40 +39,40 @@ document.addEventListener('DOMContentLoaded', function () {
       '<p style="text-align:center; opacity:0.6; padding-top:20px;">Поки немає записів</p>';
   } else {
     history.slice().reverse().forEach((game) => {
-      const item = document.createElement('div');
+      // ✅ НЕ div, щоб не підхоплював глобальні стилі div з first_quiz_style.css
+      const item = document.createElement('section');
       item.className = 'history-item';
 
       const m = Math.floor(game.timeSpent / 60);
       const s = game.timeSpent % 60;
       const timeStr = m > 0 ? `${m}хв ${s}с` : `${s}сек`;
 
+      const quizTitle = game.quizTitle || 'Квіз';
+
+      // ✅ Всередині теж НЕ div
       item.innerHTML = `
-        <div class="h-header">
+        <section class="h-header">
           <span class="h-name">${game.name}</span>
           <span class="h-score">${game.score}/${game.maxScore}</span>
-        </div>
-        <div class="h-footer">
+        </section>
+
+        <section class="h-quiz">
+          🧩 ${quizTitle}
+        </section>
+
+        <section class="h-footer">
           <span>⏱️ ${timeStr}</span>
           <span style="font-size: 0.8em; opacity: 0.7;">${game.date || ''}</span>
-        </div>
+        </section>
       `;
 
       listContainer.appendChild(item);
     });
   }
 
-  // 3) Кнопка "Очистити історію"
   const clearBtn = document.querySelector('.clear-btn');
   if (clearBtn) {
     clearBtn.addEventListener('click', clearHistory);
-  }
-
-  // 4) Кнопка "На головну" (працює тільки якщо є елемент з id="toMainBtn")
-  const toMainBtn = document.getElementById('toMainBtn');
-  if (toMainBtn) {
-    toMainBtn.addEventListener('click', function () {
-      window.location.href = 'index.html';
-    });
   }
 });
 

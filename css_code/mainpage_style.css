@@ -1,6 +1,3 @@
-/* ... (попередній код без змін) ... */
-
-/* Стилі для заголовка секції */
 .section-title {
     color: white;
     font-size: 2em;
@@ -10,7 +7,6 @@
     text-align: center;
 }
 
-/* Сітка для карток тем */
 .topics-grid {
     display: flex;
     flex-wrap: wrap;
@@ -23,7 +19,6 @@
     animation: fadeInUp 1.4s ease;
 }
 
-/* Картка теми */
 .topic-card {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(5px);
@@ -58,12 +53,4 @@
     color: #666;
     font-size: 0.9em;
     line-height: 1.4;
-}
-
-/* Адаптивність для карток */
-@media (max-width: 600px) {
-    .topic-card {
-        width: 100%;
-        max-width: 300px;
-    }
 }
