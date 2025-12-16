@@ -278,74 +278,6 @@ button:active {
     box-shadow: 0 0 10px rgba(102, 126, 234, 0.8);
 }
 
-@media (max-width: 768px) {
-    body {
-        padding: 20px 10px;
-    }
-
-    h1 {
-        font-size: 2em;
-        margin-bottom: 30px;
-    }
-
-    #quizForm {
-        padding: 30px 20px;
-    }
-
-    div {
-        padding: 20px 15px;
-    }
-
-    h3 {
-        font-size: 1.2em;
-        padding-left: 10px;
-    }
-
-    h3::before {
-        left: -25px;
-    }
-
-    label {
-        padding: 12px 15px;
-        font-size: 1em;
-    }
-
-    button {
-        padding: 16px 35px;
-        font-size: 1.1em;
-        letter-spacing: 1.5px;
-    }
-}
-
-@media (max-width: 480px) {
-    h1 {
-        font-size: 1.6em;
-    }
-
-    #quizForm {
-        padding: 20px 15px;
-    }
-
-    h3 {
-        font-size: 1.1em;
-    }
-
-    label {
-        padding: 10px 12px;
-        font-size: 0.95em;
-    }
-
-    button {
-        padding: 14px 30px;
-        font-size: 1em;
-    }
-
-    label:hover {
-        transform: translateX(3px);
-    }
-}
-
-
 .results-wrapper {
     display: flex;
     justify-content: center;
@@ -486,18 +418,6 @@ button:active {
     border-radius: 4px;
 }
 
-@media (max-width: 850px) {
-    .results-wrapper {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .result-card, .history-card {
-        width: 100%;
-        flex: none;
-    }
-}
-
 .quiz-timer{
   position: fixed;
   top: 10px;
@@ -526,4 +446,72 @@ button:active {
 
 .quiz-btn-container{
   text-align: center;
+}
+
+/* --- Question count options (3/5/7/10) --- */
+.question-options{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.question-option{
+  padding: 15px 22px;
+  border-radius: 18px;
+  cursor: pointer;
+  user-select: none;
+
+  background: white;
+  border: 2px solid #e9ecef;
+
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #333;
+
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Такий самий "градієнтний підсвіт" як у label::before */
+.question-option::before{
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, rgba(102, 126, 234, 0.12), transparent);
+  transition: width 0.3s ease;
+  z-index: 0;
+}
+
+.question-option:hover::before{
+  width: 100%;
+}
+
+.question-option:hover{
+  border-color: #667eea;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+}
+
+/* ✅ Виділений варіант */
+.question-option.selected{
+  background: linear-gradient(135deg, #e7e9ff 0%, #f0f1ff 100%);
+  border-color: #667eea;
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Текст поверх підсвітки */
+.question-option{
+  z-index: 1;
+}
+
+.start-quiz-btn{
+  display: block;
+  margin: 30px auto 0 auto;
 }

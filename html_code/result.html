@@ -6,6 +6,9 @@
     <title>Результат Квізу</title>
     <link rel="stylesheet" href="../css_code/first_quiz_style.css">
 </head>
+
+<script src="../JS_code/result.js" defer></script>
+
 <body>
 
     <h1>🏆 Результати Квізу</h1>
@@ -39,75 +42,11 @@
             <h3>📜 Історія ігор</h3>
             <div class="history-list" id="historyList">
                 </div>
-            <button onclick="clearHistory()" class="clear-btn">Очистити історію</button>
+            <button class="clear-btn">Очистити історію</button>
+
         </div>
 
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            
-            const results = JSON.parse(sessionStorage.getItem('quizResults'));
-            
-            if (results) {
-                document.getElementById('greeting').textContent = `Вітаємо, ${results.name}!`;
-                document.getElementById('playerName').textContent = results.name;
-                document.getElementById('score').textContent = results.score;
-                document.getElementById('total').textContent = results.maxScore;
-
-                const minutes = Math.floor(results.timeSpent / 60);
-                const seconds = results.timeSpent % 60;
-                document.getElementById('timeSpent').textContent = `${minutes} хв ${seconds} сек`;
-
-                const percentage = (results.score / results.maxScore) * 100;
-                const msgElement = document.getElementById('message');
-                
-                if (percentage === 100) msgElement.textContent = "🥇 Неймовірно! Ви геній!";
-                else if (percentage >= 50) msgElement.textContent = "👍 Непоганий результат!";
-                else msgElement.textContent = "📚 Треба ще трохи попрактикуватися!";
-            } else {
-                
-                window.location.href = 'quiz.html';
-            }
-
-            
-            const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
-            const listContainer = document.getElementById('historyList');
-            
-            
-            history.reverse().forEach((game) => {
-                const item = document.createElement('div');
-                item.className = 'history-item';
-                
-                
-                const m = Math.floor(game.timeSpent / 60);
-                const s = game.timeSpent % 60;
-                const timeStr = m > 0 ? `${m}хв ${s}с` : `${s}сек`;
-
-                item.innerHTML = `
-                    <div class="h-header">
-                        <span class="h-name">${game.name}</span>
-                        <span class="h-score">${game.score}/${game.maxScore}</span>
-                    </div>
-                    <div class="h-footer">
-                        <span>⏱️ ${timeStr}</span>
-                        <span style="font-size: 0.8em; opacity: 0.7;">${game.date || ''}</span>
-                    </div>
-                `;
-                listContainer.appendChild(item);
-            });
-            
-            if (history.length === 0) {
-                listContainer.innerHTML = '<p style="text-align:center; opacity:0.6; padding-top:20px;">Поки немає записів</p>';
-            }
-        });
-
-        function clearHistory() {
-            if(confirm('Видалити всю історію ігор?')) {
-                localStorage.removeItem('quizHistory');
-                location.reload();
-            }
-        }
-    </script>
 </body>
 </html>

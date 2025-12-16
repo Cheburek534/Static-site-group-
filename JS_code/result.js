@@ -1,94 +1,75 @@
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // Отримуємо результати
-    const resultsData = sessionStorage.getItem('quizResults');
-    
-    if (!resultsData) {
-        alert('❌ Результати не знайдено! Спочатку пройдіть квіз.');
-        return;
-    }
-    
-    const results = JSON.parse(resultsData);
-    
-    // Підраховуємо відсоток
-    const percentage = Math.round((results.score / results.maxScore) * 100);
-    
-    // Визначаємо оцінку
-    let grade = '';
-    let emoji = '';
-    let message = '';
-    
-    if (percentage === 100) {
-        grade = 'Відмінно!';
-        emoji = '🏆';
-        message = 'Ви відповіли на всі питання правильно!';
-    } else if (percentage >= 75) {
-        grade = 'Добре!';
-        emoji = '🌟';
-        message = 'Чудовий результат!';
-    } else if (percentage >= 50) {
-        grade = 'Непогано!';
-        emoji = '👍';
-        message = 'Є куди рости, але ви впорались!';
-    } else {
-        grade = 'Спробуйте ще!';
-        emoji = '💪';
-        message = 'Не засмучуйтесь, спробуйте ще раз!';
-    }
-    
-    // Конвертуємо час
-    const minutes = Math.floor(results.timeSpent / 60);
-    const seconds = results.timeSpent % 60;
-    const timeText = minutes > 0 ? `${minutes} хв ${seconds} сек` : `${seconds} сек`;
-    
-    // Створюємо блок з результатами
-    const resultDiv = document.createElement('div');
-    resultDiv.style.background = 'rgba(255, 255, 255, 0.8)';
-    resultDiv.style.padding = '30px';
-    resultDiv.style.borderRadius = '15px';
-    resultDiv.style.margin = '30px auto';
-    resultDiv.style.maxWidth = '600px';
-    resultDiv.style.textAlign = 'center';
-    resultDiv.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
-    
-    resultDiv.innerHTML = `
-        <h2 style="font-size: 60px; margin: 20px 0;">${emoji}</h2>
-        <h2 style="font-size: 32px; color: #2c3e50; margin: 15px 0;">${grade}</h2>
-        <p style="font-size: 20px; color: #34495e; margin: 15px 0;">${message}</p>
-        
-        <div style="background: #ecf0f1; padding: 20px; border-radius: 10px; margin: 20px 0;">
-            <p style="font-size: 28px; font-weight: bold; color: #e74c3c; margin: 10px 0;">
-                ${results.score} з ${results.maxScore} балів
-            </p>
-            <p style="font-size: 20px; color: #7f8c8d; margin: 10px 0;">
-                ${percentage}% правильних відповідей
-            </p>
-            <p style="font-size: 18px; color: #95a5a6; margin: 10px 0;">
-                ⏱️ Витрачено часу: ${timeText}
-            </p>
+document.addEventListener('DOMContentLoaded', function () {
+  // 1) Результат поточної гри
+  const resultsData = sessionStorage.getItem('quizResults');
+  if (!resultsData) {
+    // якщо користувач відкрив result.html напряму
+    window.location.href = 'quiz.html';
+    return;
+  }
+
+  const results = JSON.parse(resultsData);
+
+  // Заповнюємо верхню картку
+  document.getElementById('greeting').textContent = `Вітаємо, ${results.name}!`;
+  document.getElementById('playerName').textContent = results.name;
+  document.getElementById('score').textContent = results.score;
+  document.getElementById('total').textContent = results.maxScore;
+
+  const minutes = Math.floor(results.timeSpent / 60);
+  const seconds = results.timeSpent % 60;
+  document.getElementById('timeSpent').textContent = `${minutes} хв ${seconds} сек`;
+
+  const percentage = Math.round((results.score / results.maxScore) * 100);
+  const msgElement = document.getElementById('message');
+
+  if (percentage === 100) msgElement.textContent = "🥇 Неймовірно! Ви геній!";
+  else if (percentage >= 75) msgElement.textContent = "🌟 Чудовий результат!";
+  else if (percentage >= 50) msgElement.textContent = "👍 Непогано! Є куди рости.";
+  else msgElement.textContent = "📚 Спробуйте ще раз — все вийде!";
+
+  // 2) Історія ігор
+  const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
+  const listContainer = document.getElementById('historyList');
+
+  listContainer.innerHTML = '';
+
+  if (history.length === 0) {
+    listContainer.innerHTML =
+      '<p style="text-align:center; opacity:0.6; padding-top:20px;">Поки немає записів</p>';
+  } else {
+    history.slice().reverse().forEach((game) => {
+      const item = document.createElement('div');
+      item.className = 'history-item';
+
+      const m = Math.floor(game.timeSpent / 60);
+      const s = game.timeSpent % 60;
+      const timeStr = m > 0 ? `${m}хв ${s}с` : `${s}сек`;
+
+      item.innerHTML = `
+        <div class="h-header">
+          <span class="h-name">${game.name}</span>
+          <span class="h-score">${game.score}/${game.maxScore}</span>
         </div>
-    `;
-    
-    // Вставляємо після заголовка
-    const h1 = document.querySelector('h1');
-    const p = document.querySelector('p');
-    
-    h1.textContent = 'Ваші результати! 🎉';
-    p.textContent = '';
-    p.appendChild(resultDiv);
-    
-    // Додаємо кнопку "Пройти ще раз"
-    const mainBtn = document.querySelector('.to_main-btn');
-    const retryBtn = document.createElement('a');
-    retryBtn.href = 'quiz.html';
-    retryBtn.className = 'to_main-btn';
-    retryBtn.textContent = '🔄 Пройти ще раз';
-    retryBtn.style.marginRight = '15px';
-    mainBtn.parentNode.insertBefore(retryBtn, mainBtn);
-    
-    // Очищаємо результати при поверненні
-    mainBtn.addEventListener('click', function() {
-        sessionStorage.removeItem('quizResults');
+        <div class="h-footer">
+          <span>⏱️ ${timeStr}</span>
+          <span style="font-size: 0.8em; opacity: 0.7;">${game.date || ''}</span>
+        </div>
+      `;
+
+      listContainer.appendChild(item);
     });
-    
+  }
+
+  // 3) Кнопка "Очистити історію"
+  const clearBtn = document.querySelector('.clear-btn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', clearHistory);
+  }
 });
+
+function clearHistory() {
+  if (confirm('Видалити всю історію ігор?')) {
+    localStorage.removeItem('quizHistory');
+    location.reload();
+  }
+}
