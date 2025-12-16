@@ -1,56 +1,233 @@
+/* ===== Base ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ===== Calendar ===== */
+.top-left-calendar{
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 999;
+}
+
+/* ===== Headline ===== */
+h1 {
+    text-align: center;
+    color: white;
+    font-size: 3.2em;
+    margin-bottom: 50px;
+    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Order ===== */
+.section-title,
+.topics-grid {
+    order: 1;
+}
+
+.main-block {
+    order: 2;
+}
+
+/* ===== Section title ===== */
 .section-title {
     color: white;
-    font-size: 2em;
-    margin-top: 50px;
-    margin-bottom: 30px;
-    text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    font-size: 2.4em;          /* ⬆️ больше */
+    margin-top: 60px;
+    margin-bottom: 40px;
     text-align: center;
 }
 
+/* ===== Topics grid ===== */
 .topics-grid {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 30px;
-    max-width: 1200px;
+    gap: 40px;                 /* ⬆️ больше воздуха */
     width: 100%;
-    margin-bottom: 50px;
-    padding: 0 20px;
-    animation: fadeInUp 1.4s ease;
+    max-width: 1400px;         /* ⬆️ шире */
+    margin-bottom: 70px;
 }
 
+/* ===== Topic cards (УВЕЛИЧЕНЫ) ===== */
 .topic-card {
     background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(5px);
-    width: 220px;
-    padding: 25px;
-    border-radius: 20px;
+    width: 280px;              /* ⬆️ было ~220 */
+    padding: 34px;             /* ⬆️ больше */
+    border-radius: 26px;
     text-align: center;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    border: 2px solid transparent;
+    transition: all 0.35s ease;
+    box-shadow: 0 14px 35px rgba(0,0,0,0.25);
 }
 
 .topic-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-    border-color: #667eea;
+    transform: translateY(-12px) scale(1.04);
+    box-shadow: 0 28px 60px rgba(0,0,0,0.35);
 }
 
 .topic-card .icon {
-    font-size: 3em;
-    margin-bottom: 15px;
+    font-size: 3.8em;          /* ⬆️ иконка */
+    margin-bottom: 20px;
 }
 
 .topic-card h3 {
-    color: #333;
-    font-size: 1.4em;
-    margin-bottom: 10px;
+    font-size: 1.7em;          /* ⬆️ заголовок */
+    margin-bottom: 14px;
 }
 
 .topic-card p {
-    color: #666;
-    font-size: 0.9em;
-    line-height: 1.4;
+    font-size: 1.05em;         /* ⬆️ текст */
+    line-height: 1.5;
+}
+
+/* ===== Main block ===== */
+.main-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;                 /* ⬆️ больше пространства */
+    width: 100%;
+    max-width: 1400px;
+    margin-top: 70px;
+}
+
+/* ===== Left column (ТЕКСТ КРУПНО) ===== */
+.main-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 460px;
+    padding-right: 60px;
+}
+
+/* ===== Big text (ГЛАВНОЕ ИЗМЕНЕНИЕ) ===== */
+.main-text p {
+    color: rgba(255,255,255,0.97);
+    font-size: 2.1em;          /* 🔥 СИЛЬНО УВЕЛИЧЕНО */
+    line-height: 1.35;
+    text-align: center;
+    max-width: 520px;
+    margin-bottom: 40px;
+}
+
+/* ===== Button ===== */
+.start-btn {
+    margin-top: auto;
+
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    padding: 18px 34px;        /* ⬆️ больше */
+    font-size: 1.25em;         /* ⬆️ текст */
+    border: none;
+    border-radius: 22px;
+    cursor: pointer;
+    font-weight: 700;
+    box-shadow: 0 14px 35px rgba(0,0,0,0.3);
+    transition: 0.25s;
+}
+
+.start-btn:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 26px 60px rgba(0,0,0,0.4);
+}
+
+/* ===== Image ===== */
+.img-for-main {
+    max-width: 360px;
+    width: 100%;
+    border-radius: 22px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+
+    justify-self: end;
+    align-self: center;
+}
+
+h1 {
+    text-align: center;
+
+    /* красивый шрифт (если установлен) + запасные */
+    font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
+    font-size: 3.4em;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    line-height: 1.1;
+    margin-bottom: 55px;
+
+    /* градиент по тексту */
+    background: linear-gradient(90deg, #ffffff 0%, #e9ddff 35%, #ffffff 70%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+
+    /* мягкая тень + свечение */
+    text-shadow:
+        0 10px 30px rgba(0,0,0,0.25),
+        0 0 22px rgba(255,255,255,0.18);
+
+    /* лёгкая анимация появления */
+    animation: titlePop 0.9s ease both;
+}
+
+@keyframes titlePop {
+    from {
+        opacity: 0;
+        transform: translateY(-14px) scale(0.98);
+        filter: blur(2px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+h1::after{
+    content: "";
+    display: block;
+    width: 220px;
+    height: 4px;
+    margin: 18px auto 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
+
+.section-title {
+    position: relative;
+}
+
+/* декоративная линия НАД текстом */
+.section-title::before {
+    content: "";
+    display: block;
+
+    width: 320px;
+    height: 4px;
+    margin: 0 auto 28px;   /* 👈 отступ до текста */
+
+    border-radius: 999px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.9),
+        transparent
+    );
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
 }
