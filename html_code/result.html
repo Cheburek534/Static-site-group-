@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="../css_code/first_quiz_style.css">
 </head>
 
-<script src="../JS_code/result.js" defer></script>
-
 <body>
 
     <h1>🏆 Результати Квізу</h1>
@@ -36,17 +34,24 @@
             <a href="quiz.html">
                 <button>Спробувати ще раз</button>
             </a>
+
+            <!-- ✅ ПРАВИЛЬНИЙ ШЛЯХ -->
+            <a href="index.html">
+                <button class="to-main-btn">На головну</button>
+            </a>
+
         </div>
 
         <div class="history-card">
             <h3>📜 Історія ігор</h3>
-            <div class="history-list" id="historyList">
-                </div>
+            <div class="history-list" id="historyList"></div>
             <button class="clear-btn">Очистити історію</button>
-
         </div>
 
     </div>
+
+    <!-- ✅ Скрипт у правильному місці -->
+    <script src="../JS_code/result.js" defer></script>
 
 </body>
 </html>

@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // 1) Результат поточної гри
   const resultsData = sessionStorage.getItem('quizResults');
   if (!resultsData) {
-    // якщо користувач відкрив result.html напряму
     window.location.href = 'quiz.html';
     return;
   }
@@ -30,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // 2) Історія ігор
   const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
   const listContainer = document.getElementById('historyList');
-
   listContainer.innerHTML = '';
 
   if (history.length === 0) {
@@ -64,6 +62,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const clearBtn = document.querySelector('.clear-btn');
   if (clearBtn) {
     clearBtn.addEventListener('click', clearHistory);
+  }
+
+  // 4) Кнопка "На головну" (працює тільки якщо є елемент з id="toMainBtn")
+  const toMainBtn = document.getElementById('toMainBtn');
+  if (toMainBtn) {
+    toMainBtn.addEventListener('click', function () {
+      window.location.href = 'index.html';
+    });
   }
 });
 
