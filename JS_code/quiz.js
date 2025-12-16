@@ -59,7 +59,7 @@ const baseQuizDatabase = {
         { question: "Що таке кібербезпека?", answers: ["Захист даних", "Ремонт ПК", "Створення сайтів"], correct: 0 },
         { question: "Яка технологія використовується в безконтактній оплаті?", answers: ["NFC", "GPS", "Wi-Fi"], correct: 0 },
         { question: "Що таке браузер?", answers: ["Операційна система", "Програма для Інтернету", "Антивірус"], correct: 1 },
-        { question: "Який формат файлу є зображенням ?", answers: ["MP3", "JPG", "DOC"], correct: 1 }
+        { question: "Який формат файлу є зображенням?", answers: ["MP3", "JPG", "DOC"], correct: 1 }
     ],
     culture: [
         { question: "Хто написав «Кобзар»?", answers: ["Іван Франко", "Тарас Шевченко", "Леся Українка"], correct: 1 },
