@@ -497,3 +497,33 @@ button:active {
         flex: none;
     }
 }
+
+.quiz-timer{
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.quiz-progress{
+  text-align: center;
+  padding: 15px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #555;
+}
+
+.quiz-finish-btn{
+  margin-top: 20px;
+}
+
+.quiz-btn-container{
+  text-align: center;
+}

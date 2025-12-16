@@ -112,16 +112,7 @@ function startQuiz() {
     startTime = Date.now(); // Засікаємо час
     
     const timerDiv = document.createElement('div');
-    timerDiv.style.position = 'fixed';
-    timerDiv.style.top = '10px';
-    timerDiv.style.right = '10px';
-    timerDiv.style.padding = '15px';
-    timerDiv.style.background = 'rgba(255, 255, 255, 0.9)';
-    timerDiv.style.borderRadius = '10px';
-    timerDiv.style.fontSize = '18px';
-    timerDiv.style.fontWeight = 'bold';
-    timerDiv.style.zIndex = '1000';
-    timerDiv.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';
+    timerDiv.classList.add('quiz-timer');
     document.body.appendChild(timerDiv);
     
     const timerInterval = setInterval(function() {
@@ -132,13 +123,9 @@ function startQuiz() {
     }, 1000);
     
     const progressDiv = document.createElement('div');
-    progressDiv.style.textAlign = 'center';
-    progressDiv.style.padding = '15px';
-    progressDiv.style.marginBottom = '20px';
-    progressDiv.style.fontSize = '18px';
-    progressDiv.style.fontWeight = 'bold';
-    progressDiv.style.color = '#555';
+    progressDiv.classList.add('quiz-progress');
     form.appendChild(progressDiv);
+
     
     function updateProgress() {
         let answered = 0;
@@ -177,7 +164,8 @@ function startQuiz() {
     const finishBtn = document.createElement('button');
     finishBtn.type = 'button';
     finishBtn.textContent = 'Завершити тест';
-    finishBtn.style.marginTop = '20px';
+    finishBtn.classList.add('quiz-finish-btn');
+
     
     finishBtn.onclick = function() {
         let answered = 0;
@@ -219,7 +207,8 @@ function startQuiz() {
     };
     
     const btnContainer = document.createElement('div');
-    btnContainer.style.textAlign = 'center';
+    btnContainer.classList.add('quiz-btn-container');
     btnContainer.appendChild(finishBtn);
     form.appendChild(btnContainer);
+
 }
