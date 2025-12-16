@@ -4,26 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main page of a quiz</title>
-
-    <link rel="stylesheet" href="../css_code/mainpage_style.css ">
+    <link rel="stylesheet" href="../css_code/mainpage_style.css">
 </head>
 <body>
 
-    <h1>Welcome to our website with a lot of different quizzes! (in the future)</h1>
+    <h1>Welcome to our website with a lot of different quizzes!</h1>
 
     <div class="main-block">
         <div class="main-text">
-            <p>For now, there is only 1 quiz waiting for you.</p>
+            <p>Ready to challenge yourself? Choose a category below or create your own!</p>
 
-            <a href="../html_code/quiz.html">
-                <button class="start-btn">Start first quiz</button>
+            <a href="create_quiz.html">
+                <button class="start-btn">🛠️ Create Custom Quiz</button>
             </a>
         </div>
 
         <img src="../images/image_for_mainpage.jpg" class="img-for-main">
     </div>
 
+    <h2 class="section-title">Choose your topic:</h2>
+    
+    <div class="topics-grid">
+        <div class="topic-card" data-topic="history">
+            <div class="icon">📜</div>
+            <h3>History</h3>
+            <p>Ukraine & World history facts</p>
+        </div>
+
+        <div class="topic-card" data-topic="science">
+            <div class="icon">🧬</div>
+            <h3>Science</h3>
+            <p>Biology, Physics & Chemistry</p>
+        </div>
+
+        <div class="topic-card" data-topic="tech">
+            <div class="icon">💻</div>
+            <h3>Technology</h3>
+            <p>IT, Gadgets & Modern World</p>
+        </div>
+
+        <div class="topic-card" data-topic="culture">
+            <div class="icon">🎨</div>
+            <h3>Culture</h3>
+            <p>Art, Music & Literature</p>
+        </div>
+
+        <div class="topic-card" data-topic="mix">
+            <div class="icon">🎲</div>
+            <h3>Mix</h3>
+            <p>Random questions for fun</p>
+        </div>
+    </div>
+
 <script src="../JS_code/index.js"></script>
 </body>
-
 </html>

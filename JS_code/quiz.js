@@ -1,56 +1,86 @@
-const allQuestions = [
-    {
-        question: "Why did you enter KPI?",
-        answers: ["I don't know", "Я не знаю", "Тому що це найкращий технічний університет України"],
-        correct: 2
-    },
-    {
-        question: "Do you love to study in KPI?",
-        answers: ["Yes", "Of course", "Nuhhhh"],
-        correct: 0
-    },
-    {
-        question: "Do you love My Little Pony?",
-        answers: ["Yes", "No", "Maybe"],
-        correct: 0
-    },
-    {
-        question: "Who is your favourite teacher?",
-        answers: ["Пономаренко", "Туганських", "Колосова"],
-        correct: 0
-    },
-    {
-        question: "When Second World War was?",
-        answers: ["1914-1918", "1939-1945", "988-1014"],
-        correct: 1
-    },
-    {
-        question: "What is the capital of Ukraine?",
-        answers: ["Kyiv", "Lviv", "Odesa"],
-        correct: 0
-    },
-    {
-        question: "How many days in a week?",
-        answers: ["5", "7", "10"],
-        correct: 1
-    },
-    {
-        question: "What color is the sky?",
-        answers: ["Blue", "Green", "Red"],
-        correct: 0
-    },
-    {
-        question: "Which planet is closest to the Sun?",
-        answers: ["Venus", "Mercury", "Mars"],
-        correct: 1
-    },
-    {
-        question: "How many continents are there?",
-        answers: ["5", "6", "7"],
-        correct: 2
-    }
-];
+// База даних питань по категоріях
+const quizDatabase = {
+    mix: [
+        { question: "Why did you enter KPI?", answers: ["I don't know", "Я не знаю", "Тому що це найкращий технічний університет України"], correct: 2 },
+        { question: "Do you love to study in KPI?", answers: ["Yes", "Of course", "Nuhhhh"], correct: 0 },
+        { question: "Do you love My Little Pony?", answers: ["Yes", "No", "Maybe"], correct: 0 },
+        { question: "Who is your favourite teacher?", answers: ["Пономаренко", "Туганських", "Колосова"], correct: 0 },
+        { question: "What is the capital of Ukraine?", answers: ["Kyiv", "Lviv", "Odesa"], correct: 0 },
+        { question: "What color is the sky?", answers: ["Blue", "Green", "Red"], correct: 0 },
+        { question: "How many days in a week?", answers: ["5", "7", "10"], correct: 1 },
+        { question: "Which planet is closest to the Sun?", answers: ["Venus", "Mercury", "Mars"], correct: 1 }
+    ],
+    history: [
+        { question: "У якому році проголошено незалежність України?", answers: ["1989", "1991", "1993"], correct: 1 },
+        { question: "Хто був першим президентом України?", answers: ["Віктор Ющенко", "Леонід Кравчук", "Леонід Кучма"], correct: 1 },
+        { question: "Яка держава була центром Київської Русі?", answers: ["Новгород", "Київ", "Чернігів"], correct: 1 },
+        { question: "Хто очолював визвольну війну 1648–1657 рр.?", answers: ["Іван Мазепа", "Богдан Хмельницький", "Петро Дорошенко"], correct: 1 },
+        { question: "Яка подія вважається початком Другої світової війни?", answers: ["Напад Німеччини на СРСР", "Напад Німеччини на Польщу", "Атака на Перл-Харбор"], correct: 1 },
+        { question: "У якому столітті відбулася Французька революція?", answers: ["XVII", "XVIII", "XIX"], correct: 1 },
+        { question: "Хто був першим імператором Риму?", answers: ["Юлій Цезар", "Октавіан Август", "Нерон"], correct: 1 },
+        { question: "Яка битва відбулася у 1410 році?", answers: ["Куликовська", "Грюнвальдська", "Полтавська"], correct: 1 },
+        { question: "Яка держава збудувала Колізей?", answers: ["Греція", "Римська імперія", "Єгипет"], correct: 1 },
+        { question: "Хто відкрив Америку для європейців?", answers: ["Васко да Гама", "Христофор Колумб", "Фернан Магеллан"], correct: 1 },
+        { question: "Яка цивілізація створила піраміди?", answers: ["Майя", "Єгиптяни", "Ассирійці"], correct: 1 },
+        { question: "Який договір завершив Першу світову війну?", answers: ["Версальський", "Брестський", "Потсдамський"], correct: 0 },
+        { question: "У якому році відбулася Чорнобильська катастрофа?", answers: ["1984", "1986", "1989"], correct: 1 },
+        { question: "Хто був гетьманом під час Полтавської битви?", answers: ["Богдан Хмельницький", "Іван Мазепа", "Павло Скоропадський"], correct: 1 },
+        { question: "Яка держава першою запустила людину в космос?", answers: ["США", "СРСР", "Китай"], correct: 1 }
+    ],
+    science: [
+        { question: "Яка планета найближча до Сонця?", answers: ["Венера", "Меркурій", "Марс"], correct: 1 },
+        { question: "Формула води:", answers: ["CO₂", "H₂O", "O₂"], correct: 1 },
+        { question: "Яка одиниця вимірювання сили?", answers: ["Ват", "Ньютон", "Джоуль"], correct: 1 },
+        { question: "Який газ необхідний для дихання людини?", answers: ["Азот", "Кисень", "Вуглекислий газ"], correct: 1 },
+        { question: "Найбільший орган людини:", answers: ["Серце", "Печінка", "Шкіра"], correct: 2 },
+        { question: "Яка тварина є ссавцем?", answers: ["Дельфін", "Акула", "Крокодил"], correct: 0 },
+        { question: "Що вивчає біологія?", answers: ["Зорі", "Живі організми", "Речовини"], correct: 1 },
+        { question: "Який метал є рідким за кімнатної температури?", answers: ["Олово", "Ртуть", "Алюміній"], correct: 1 },
+        { question: "Яка частина клітини містить ДНК?", answers: ["Мітохондрія", "Ядро", "Рибосома"], correct: 1 },
+        { question: "Швидкість світла приблизно дорівнює:", answers: ["300 тис. км/с", "150 тис. км/с", "1 млн км/с"], correct: 0 },
+        { question: "Яка наука вивчає землетруси?", answers: ["Метеорологія", "Сейсмологія", "Географія"], correct: 1 },
+        { question: "Яка планета має кільця?", answers: ["Марс", "Сатурн", "Меркурій"], correct: 1 },
+        { question: "Який вітамін утворюється під дією сонця?", answers: ["A", "C", "D"], correct: 2 },
+        { question: "Яка речовина має pH = 7?", answers: ["Кислота", "Нейтральна", "Лужна"], correct: 1 },
+        { question: "Який орган відповідає за зір?", answers: ["Вухо", "Око", "Ніс"], correct: 1 }
+    ],
+    tech: [
+        { question: "Що означає скорочення «ІТ»?", answers: ["Інтернет-технології", "Інформаційні технології", "Інтелектуальні технології"], correct: 1 },
+        { question: "Хто заснував Microsoft?", answers: ["Стів Джобс", "Білл Гейтс", "Марк Цукерберг"], correct: 1 },
+        { question: "Основний пристрій для введення тексту:", answers: ["Монітор", "Клавіатура", "Принтер"], correct: 1 },
+        { question: "Що таке штучний інтелект?", answers: ["Людський розум", "Програма, що імітує мислення", "Робот"], correct: 1 },
+        { question: "Яка мова програмування популярна для вебу?", answers: ["HTML", "Python", "Java"], correct: 1 }, // Python часто використовується для бекенду, HTML - розмітка. Якщо "мова програмування", то Python.
+        { question: "Що зберігає дані постійно?", answers: ["ОЗП", "Процесор", "Жорсткий диск"], correct: 2 },
+        { question: "Що таке Інтернет?", answers: ["Програма", "Всесвітня мережа", "Сервер"], correct: 1 },
+        { question: "Що означає «хмарне сховище»?", answers: ["Збереження на флешці", "Онлайн-зберігання", "Архівування"], correct: 1 },
+        { question: "Яка соцмережа належить Meta?", answers: ["TikTok", "Instagram", "Telegram"], correct: 1 },
+        { question: "Що таке QR-код?", answers: ["Графічний пароль", "Двовимірний код", "Вірус"], correct: 1 },
+        { question: "Який пристрій вимірює кроки?", answers: ["Барометр", "Фітнес-трекер", "Термометр"], correct: 1 },
+        { question: "Що таке кібербезпека?", answers: ["Захист даних", "Ремонт ПК", "Створення сайтів"], correct: 0 },
+        { question: "Яка технологія використовується в безконтактній оплаті?", answers: ["NFC", "GPS", "Wi-Fi"], correct: 0 },
+        { question: "Що таке браузер?", answers: ["Операційна система", "Програма для Інтернету", "Антивірус"], correct: 1 },
+        { question: "Який формат файлу є зображенням?", answers: ["MP3", "JPG", "DOC"], correct: 1 }
+    ],
+    culture: [
+        { question: "Хто написав «Кобзар»?", answers: ["Іван Франко", "Тарас Шевченко", "Леся Українка"], correct: 1 },
+        { question: "Який інструмент має клавіші?", answers: ["Скрипка", "Піаніно", "Флейта"], correct: 1 },
+        { question: "Що таке театр?", answers: ["Вид спорту", "Вид мистецтва", "Наука"], correct: 1 },
+        { question: "Автор «Ромео і Джульєтти»:", answers: ["Данте", "Шекспір", "Мольєр"], correct: 1 },
+        { question: "Який жанр належить до живопису?", answers: ["Пейзаж", "Сонет", "Симфонія"], correct: 0 },
+        { question: "Національний символ України:", answers: ["Тризуб", "Лев", "Орел"], correct: 0 },
+        { question: "Який танець є українським народним?", answers: ["Вальс", "Гопак", "Танго"], correct: 1 },
+        { question: "Що таке скульптура?", answers: ["Малюнок", "Об’ємне мистецтво", "Вірш"], correct: 1 },
+        { question: "Хто написав «Лісову пісню»?", answers: ["Ольга Кобилянська", "Леся Українка", "Марко Вовчок"], correct: 1 },
+        { question: "Який жанр кіно має вигадані події?", answers: ["Документальний", "Художній", "Освітній"], correct: 1 },
+        { question: "Що таке музей?", answers: ["Магазин", "Сховище мистецтва", "Театр"], correct: 1 },
+        { question: "Який стиль мистецтва пов’язаний із античністю?", answers: ["Бароко", "Класицизм", "Модерн"], correct: 1 },
+        { question: "Хто є автором Мони Лізи?", answers: ["Мікеланджело", "Леонардо да Вінчі", "Рафаель"], correct: 1 },
+        { question: "Що таке симфонія?", answers: ["Картина", "Музичний твір", "Танок"], correct: 1 },
+        { question: "Який колір відсутній у прапорі України?", answers: ["Синій", "Жовтий", "Червоний"], correct: 2 }
+    ]
+};
 
+// Функція перемішування
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
@@ -61,16 +91,38 @@ function shuffle(array) {
 
 let selectedQuestions = [];
 let selectedQuestionCount = 0;
-let startTime = 0; // Змінна для часу
+let startTime = 0;
 
 document.addEventListener('DOMContentLoaded', function() {
+    
+    // --- ЗМІНА ТУТ: Отримуємо тему з SessionStorage ---
+    const topic = sessionStorage.getItem('selectedTopic') || 'mix'; // За замовчуванням mix
+    let currentQuestions = quizDatabase[topic];
+
+    if (!currentQuestions) {
+        currentQuestions = quizDatabase['mix']; // Fallback
+    }
+
+    // Змінимо заголовок сторінки відповідно до теми
+    const titles = {
+        'history': 'Історія Світу та України',
+        'science': 'Наука та Природа',
+        'tech': 'Технології та IT',
+        'culture': 'Культура та Мистецтво',
+        'mix': 'Загальний мікс'
+    };
+    
+    const h1 = document.querySelector('h1');
+    if(h1) h1.textContent = titles[topic] || 'Квіз';
+
+    // --------------------------------------------------
     
     const questionSelector = document.getElementById('questionSelector');
     const startQuizBtn = document.getElementById('startQuizBtn');
     const form = document.getElementById('quizForm');
     const questionOptions = document.querySelectorAll('.question-option');
-    const nameInput = document.getElementById('playerName'); // Отримуємо поле імені
-    
+    const nameInput = document.getElementById('playerName');
+
     questionOptions.forEach(option => {
         option.addEventListener('click', function() {
             questionOptions.forEach(opt => opt.classList.remove('selected'));
@@ -81,7 +133,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     startQuizBtn.addEventListener('click', function() {
-        // 1. Перевірка імені
         const playerName = nameInput.value.trim();
         if (playerName === '') {
             alert('⚠️ Будь ласка, введіть ваше ім\'я!');
@@ -99,7 +150,8 @@ document.addEventListener('DOMContentLoaded', function() {
         questionSelector.classList.add('hidden');
         form.classList.remove('hidden');
         
-        selectedQuestions = shuffle([...allQuestions]).slice(0, selectedQuestionCount);
+        // Використовуємо питання з обраної теми
+        selectedQuestions = shuffle([...currentQuestions]).slice(0, selectedQuestionCount);
         
         startQuiz();
     });
@@ -109,7 +161,7 @@ function startQuiz() {
     const form = document.getElementById('quizForm');
     form.innerHTML = '';
     
-    startTime = Date.now(); // Засікаємо час
+    startTime = Date.now();
     
     const timerDiv = document.createElement('div');
     timerDiv.classList.add('quiz-timer');
@@ -126,7 +178,6 @@ function startQuiz() {
     progressDiv.classList.add('quiz-progress');
     form.appendChild(progressDiv);
 
-    
     function updateProgress() {
         let answered = 0;
         for (let i = 0; i < selectedQuestions.length; i++) {
@@ -166,7 +217,6 @@ function startQuiz() {
     finishBtn.textContent = 'Завершити тест';
     finishBtn.classList.add('quiz-finish-btn');
 
-    
     finishBtn.onclick = function() {
         let answered = 0;
         let score = 0;
@@ -210,5 +260,4 @@ function startQuiz() {
     btnContainer.classList.add('quiz-btn-container');
     btnContainer.appendChild(finishBtn);
     form.appendChild(btnContainer);
-
 }
