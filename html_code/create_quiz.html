@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Створити свій квіз</title>
+    <link rel="stylesheet" href="../css_code/mainpage.css">
+    <link rel="stylesheet" href="../css_code/create_quiz_style.css">
+</head>
+<body>
+
+    <h1>🛠️ Конструктор Квізів</h1>
+
+    <div class="creator-container">
+        <div class="form-group">
+            <label for="quizTitle">Назва вашого квізу:</label>
+            <input type="text" id="quizTitle" placeholder="Наприклад: Мої улюблені фільми" autocomplete="off">
+        </div>
+
+        <div id="questionsContainer">
+            </div>
+
+        <div class="controls">
+            <button id="addQuestionBtn" class="secondary-btn">+ Додати питання</button>
+            <button id="saveQuizBtn" class="primary-btn">💾 Зберегти квіз</button>
+        </div>
+
+        <a href="index.html" class="back-link">← Повернутися на головну</a>
+    </div>
+
+    <script src="../JS_code/create_quiz.js"></script>
+</body>
+</html>

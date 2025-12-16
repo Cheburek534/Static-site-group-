@@ -1,61 +1,48 @@
-document.addEventListener('DOMContentLoaded', function() {
-    
-    const hour = new Date().getHours();
-    let greeting = '';
-    
-    if (hour >= 5 && hour < 12) {
-        greeting = '🌅 Доброго ранку!';
-    } else if (hour >= 12 && hour < 17) {
-        greeting = '☀️ Доброго дня!';
-    } else if (hour >= 17 && hour < 22) {
-        greeting = '🌆 Доброго вечора!';
-    } else {
-        greeting = '🌙 Доброї ночі!';
-    }
-    
-    const h1 = document.querySelector('h1');
-    const greetingP = document.createElement('p');
-    greetingP.textContent = greeting;
-    greetingP.style.textAlign = 'center';
-    greetingP.style.fontSize = '24px';
-    greetingP.style.color = 'white';
-    greetingP.style.textShadow = '1px 1px 2px rgba(0,0,0,0.3)';
-    greetingP.style.marginBottom = '20px';
-    h1.after(greetingP);
-    
-    let visits = sessionStorage.getItem('visits') || 0;
-    visits++;
-    sessionStorage.setItem('visits', visits);
-    
-    const mainText = document.querySelector('.main-text');
-    const visitP = document.createElement('p');
-    visitP.textContent = `📊 Ви відвідали цю сторінку ${visits} раз(ів)`;
-    visitP.style.fontSize = '16px';
-    visitP.style.color = '#7f8c8d';
-    visitP.style.marginTop = '15px';
-    mainText.appendChild(visitP);
-    
-    const today = new Date();
-    const dateP = document.createElement('p');
-    dateP.textContent = `📅 Сьогодні: ${today.toLocaleDateString('uk-UA', { 
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-    })}`;
-    dateP.style.textAlign = 'center';
-    dateP.style.fontSize = '16px';
-    dateP.style.color = '#eee';
-    dateP.style.marginTop = '10px';
-    greetingP.after(dateP);
+document.addEventListener('DOMContentLoaded', () => {
+    const topicsGrid = document.querySelector('.topics-grid');
 
-    const topicCards = document.querySelectorAll('.topic-card');
+    // 1. Завантаження кастомних квізів з LocalStorage
+    const customQuizzes = JSON.parse(localStorage.getItem('customQuizzes') || '[]');
 
-    topicCards.forEach(card => {
+    customQuizzes.forEach(quiz => {
+        const card = document.createElement('div');
+        card.className = 'topic-card';
+        card.dataset.topic = quiz.id; // Наприклад: custom_170123456789
+
+        card.innerHTML = `
+            <div class="icon">${quiz.icon}</div>
+            <h3>${quiz.title}</h3>
+            <p>${quiz.description}</p>
+            <button class="delete-quiz-btn" style="margin-top:10px; padding:5px 10px; background:#ff7675; border:none; border-radius:5px; color:white; cursor:pointer; font-size:0.8em; opacity:0.8;">Видалити</button>
+        `;
+
+        // Додаємо кнопку видалення
+        const deleteBtn = card.querySelector('.delete-quiz-btn');
+        deleteBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Щоб не спрацював клік по картці
+            if(confirm('Видалити цей квіз?')) {
+                const updatedQuizzes = customQuizzes.filter(q => q.id !== quiz.id);
+                localStorage.setItem('customQuizzes', JSON.stringify(updatedQuizzes));
+                card.remove();
+            }
+        });
+
+        topicsGrid.appendChild(card);
+    });
+
+    // 2. Обробка кліків по картках (і стандартних, і кастомних)
+    const cards = document.querySelectorAll('.topic-card');
+
+    cards.forEach(card => {
         card.addEventListener('click', function() {
-            const topic = this.getAttribute('data-topic');
+            const topic = this.dataset.topic;
+            
+            // Якщо це кастомний квіз, зберігаємо його назву окремо, щоб quiz.js міг її підхопити
+            const h3 = this.querySelector('h3').innerText;
+            sessionStorage.setItem('customQuizTitle', h3);
+
             sessionStorage.setItem('selectedTopic', topic);
-            window.location.href = '../html_code/quiz.html';
+            window.location.href = 'quiz.html';
         });
     });
 });
