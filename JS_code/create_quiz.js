@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveQuizBtn = document.getElementById('saveQuizBtn');
     const quizTitleInput = document.getElementById('quizTitle');
 
-    // Функція створення HTML для одного питання
     function createQuestionBlock(index) {
         const div = document.createElement('div');
         div.className = 'question-block';
@@ -32,27 +31,22 @@ document.addEventListener('DOMContentLoaded', () => {
         return div;
     }
 
-    // Додавання нового питання
     addQuestionBtn.addEventListener('click', () => {
         const currentCount = questionsContainer.children.length;
         const newBlock = createQuestionBlock(currentCount);
         questionsContainer.appendChild(newBlock);
     });
 
-    // Видалення питання (глобальна функція, щоб була доступна з HTML)
     window.removeQuestion = function(btn) {
         const block = btn.closest('.question-block');
         block.remove();
-        // Перенумерація питань (візуально)
         Array.from(questionsContainer.children).forEach((child, idx) => {
             child.querySelector('h3').textContent = `Питання #${idx + 1}`;
-            // Оновлюємо імена радіокнопок, щоб вони залишалися унікальними для групи
             const radios = child.querySelectorAll('input[type="radio"]');
             radios.forEach(r => r.name = `correct_${idx}`);
         });
     };
 
-    // Збереження квізу
     saveQuizBtn.addEventListener('click', () => {
         const title = quizTitleInput.value.trim();
         const questionBlocks = document.querySelectorAll('.question-block');
@@ -75,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const aInputs = block.querySelectorAll('.answer-text');
             const correctRadio = block.querySelector(`input[name="correct_${index}"]:checked`);
 
-            // Перевірка на заповненість
             if (!qText) isValid = false;
             const answers = [];
             aInputs.forEach(inp => {
@@ -86,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!correctRadio) {
                 alert(`⚠️ Оберіть правильну відповідь у питанні #${index + 1}!`);
                 isValid = false;
-                return; // вихід з forEach (не зупиняє функцію повністю, але прапорець ставимо)
+                return; 
             }
 
             if (isValid) {
@@ -103,16 +96,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Формуємо об'єкт квізу
         const newQuiz = {
-            id: 'custom_' + Date.now(), // Унікальний ID
+            id: 'custom_' + Date.now(), 
             title: title,
-            icon: '✨', // Іконка для кастомних квізів
+            icon: '✨', 
             description: `Кількість питань: ${questions.length}`,
             data: questions
         };
 
-        // Зберігаємо в LocalStorage
         const existingQuizzes = JSON.parse(localStorage.getItem('customQuizzes') || '[]');
         existingQuizzes.push(newQuiz);
         localStorage.setItem('customQuizzes', JSON.stringify(existingQuizzes));
@@ -121,6 +112,5 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'index.html';
     });
 
-    // Додаємо перше питання при завантаженні
     addQuestionBtn.click();
 });
