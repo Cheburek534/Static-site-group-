@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Відображення поточного результату
     const resultData = JSON.parse(sessionStorage.getItem('quizResults'));
 
     if (resultData) {
@@ -7,12 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('score').textContent = resultData.score;
         document.getElementById('total').textContent = resultData.maxScore;
         
-        // Форматування часу (хх:хх)
         const mins = Math.floor(resultData.timeSpent / 60);
         const secs = resultData.timeSpent % 60;
         document.getElementById('timeSpent').textContent = `${mins}хв ${secs}с`;
 
-        // Зміна повідомлення в залежності від відсотка правильних відповідей
         const percentage = (resultData.score / resultData.maxScore) * 100;
         const msgElement = document.getElementById('message');
         const greetingElement = document.getElementById('greeting');
@@ -31,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
             msgElement.textContent = "Вам варто підтягнути знання з теми '" + resultData.quizTitle + "'.";
         }
     } else {
-        // Якщо зайшли на сторінку без проходження тесту
         document.querySelector('.result-card').innerHTML = '<h2>Результати відсутні</h2><a href="index.html"><button>На головну</button></a>';
     }
 
@@ -41,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderHistory() {
         historyList.innerHTML = '';
-        // Показуємо останні ігри зверху (reverse)
         const reversedHistory = [...history].reverse();
 
         if (reversedHistory.length === 0) {
@@ -69,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderHistory();
 
-    // 3. Очищення історії
     const clearBtn = document.querySelector('.clear-btn');
     clearBtn.addEventListener('click', () => {
         if(confirm('Ви впевнені, що хочете очистити всю історію ігор?')) {
