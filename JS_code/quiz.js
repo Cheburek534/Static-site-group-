@@ -1,4 +1,3 @@
-// 1. Стандартна база данихn
 const baseQuizDatabase = {
     mix: [
         { question: "Why did you enter KPI?", answers: ["I don't know", "Я не знаю", "Тому що це найкращий технічний університет України"], correct: 2 },
@@ -88,7 +87,6 @@ function shuffle(array) {
     return array;
 }
 
-// Змінні, які будуть використовуватися в обох функціях
 let selectedQuestions = [];
 let selectedQuestionCount = 0;
 let startTime = 0;
@@ -97,10 +95,8 @@ let currentQuizTitle = 'Квіз';
 
 document.addEventListener('DOMContentLoaded', function() {
     
-    // 1. Отримуємо обрану тему з SessionStorage
     currentTopic = sessionStorage.getItem('selectedTopic') || 'mix';
 
-    // 2. Створюємо робочу базу даних: Стандартна + Кастомні з LocalStorage
     let quizDatabase = { ...baseQuizDatabase };
     
     try {
@@ -112,17 +108,14 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error("Помилка завантаження кастомних квізів:", e);
     }
 
-    // 3. Вибираємо питання для поточної теми
     let currentQuestions = quizDatabase[currentTopic];
 
-    // Якщо раптом теми не існує
     if (!currentQuestions) {
         console.warn(`Тема "${currentTopic}" не знайдена, перемикаємо на 'mix'`);
         currentQuestions = quizDatabase['mix'];
         currentTopic = 'mix';
     }
 
-    // 4. Визначаємо заголовок
     const titles = {
         'history': 'Історія Світу та України',
         'science': 'Наука та Природа',
@@ -144,11 +137,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Встановлюємо заголовок на сторінці
     const h1 = document.querySelector('h1');
     if (h1) h1.textContent = currentQuizTitle;
     
-    // --- Логіка інтерфейсу ---
     const questionSelector = document.getElementById('questionSelector');
     const startQuizBtn = document.getElementById('startQuizBtn');
     const form = document.getElementById('quizForm');
@@ -158,33 +149,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const questionOptions = document.querySelectorAll('.question-option');
     const optionsTitle = document.querySelector('#questionSelector h3');
 
-    // ПЕРЕВІРКА: Це кастомний квіз чи стандартний?
     const isCustomQuiz = currentTopic.startsWith('custom_');
 
     if (isCustomQuiz) {
-        // === ЛОГІКА ДЛЯ КАСТОМНИХ КВІЗІВ ===
         
-        // Ховаємо кнопки вибору
         questionOptionsContainer.style.display = 'none';
         
-        // Змінюємо заголовок "Оберіть кількість питань" на інформацію
         if (optionsTitle) {
             optionsTitle.innerHTML = `📝 Цей квіз містить <strong>${currentQuestions.length}</strong> питань`;
             optionsTitle.style.marginBottom = '20px';
         }
 
-        // Автоматично вибираємо всі питання
         selectedQuestionCount = currentQuestions.length;
         
-        // Робимо кнопку старту доступною одразу
         startQuizBtn.disabled = false;
 
     } else {
-        // === ЛОГІКА ДЛЯ СТАНДАРТНИХ КВІЗІВ ===
         
         questionOptions.forEach(option => {
             const count = parseInt(option.dataset.count);
-            // Якщо в базі питань менше, ніж на кнопці -> ховаємо кнопку
             if (currentQuestions.length < count) {
                 option.style.display = 'none';
             }
@@ -197,14 +180,12 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-        // Якщо питань дуже мало (менше 3), автоматично вибираємо "всі"
         if (currentQuestions.length < 3) {
             selectedQuestionCount = currentQuestions.length;
             startQuizBtn.disabled = false;
         }
     }
 
-    // Клік по кнопці "Почати"
     startQuizBtn.addEventListener('click', function() {
         const playerName = nameInput.value.trim();
         if (playerName === '') {
@@ -223,19 +204,16 @@ document.addEventListener('DOMContentLoaded', function() {
         questionSelector.classList.add('hidden');
         form.classList.remove('hidden');
         
-        // Якщо це кастомний квіз - ми можемо не перемішувати питання, якщо хочете зберегти авторський порядок.
-        // Але поки що залишимо shuffle для інтересу.
+       
         selectedQuestions = shuffle([...currentQuestions]).slice(0, selectedQuestionCount);
         
         startQuiz();
     });
 
-    // --- Функція запуску самої гри ---
     function startQuiz() {
         form.innerHTML = '';
         startTime = Date.now();
         
-        // Таймер
         const timerDiv = document.createElement('div');
         timerDiv.classList.add('quiz-timer');
         document.body.appendChild(timerDiv);
@@ -247,7 +225,6 @@ document.addEventListener('DOMContentLoaded', function() {
             timerDiv.textContent = `⏱️ Час: ${minutes}:${seconds.toString().padStart(2, '0')}`;
         }, 1000);
         
-        // Прогрес
         const progressDiv = document.createElement('div');
         progressDiv.classList.add('quiz-progress');
         form.appendChild(progressDiv);
@@ -262,7 +239,6 @@ document.addEventListener('DOMContentLoaded', function() {
             progressDiv.textContent = `📝 Питання ${answered} з ${selectedQuestions.length}`;
         }
         
-        // Рендеринг питань
         selectedQuestions.forEach(function(q, i) {
             const div = document.createElement('div');
             const h3 = document.createElement('h3');
@@ -287,7 +263,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         updateProgress();
         
-        // Кнопка завершення
         const finishBtn = document.createElement('button');
         finishBtn.type = 'button';
         finishBtn.textContent = 'Завершити тест';
