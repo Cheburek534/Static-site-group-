@@ -201,7 +201,6 @@ button:active {
     transform: translateY(-2px) scale(1.02);
 }
 
-/* Анімації */
 @keyframes fadeInDown {
     from {
         opacity: 0;
