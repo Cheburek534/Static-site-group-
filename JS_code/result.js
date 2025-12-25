@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.result-card').innerHTML = '<h2>Результати відсутні</h2><a href="index.html"><button>На головну</button></a>';
     }
 
-    // 2. Відображення історії (з LocalStorage)
     const historyList = document.getElementById('historyList');
     const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
 
@@ -68,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clearBtn.addEventListener('click', () => {
         if(confirm('Ви впевнені, що хочете очистити всю історію ігор?')) {
             localStorage.removeItem('quizHistory');
-            history.length = 0; // очищаємо поточний масив
+            history.length = 0;
             renderHistory();
         }
     });
